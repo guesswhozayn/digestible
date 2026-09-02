@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digestible — Signature Script Logo Studio</title>
+  
+  <!-- Google Fonts: Elegant Cursive & Script Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Sacramento&family=Dancing+Script:wght@600;700&family=Satisfy&family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-cream: #F5F4EE;
+      --ink-black: #080808;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --accent-blue: #2563EB;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--ink-black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 24px;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Dark Mode Override */
+    body.dark-mode {
+      background-color: #0A0D14;
+      color: #F8FAFC;
+      --ink-black: #FFFFFF;
+      --card-border: rgba(255, 255, 255, 0.1);
+    }
+
+    .studio-container {
+      max-width: 1000px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Control Bar */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      border-radius: 100px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    body.dark-mode .controls-bar {
+      background: rgba(18, 24, 38, 0.75);
+    }
+
+    .control-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .btn-toggle {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    body.dark-mode .btn-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .font-select {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Main Showcase Canvas */
+    .logo-canvas {
+      width: 100%;
+      min-height: 380px;
+      background: #F5F4EE;
+      border: 1px solid var(--card-border);
+      border-radius: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    body.dark-mode .logo-canvas {
+      background: #0A0D14;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Handwritten Logo Text Render */
+    .logo-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 128px;
+      color: var(--ink-black);
+      line-height: 1;
+      user-select: none;
+      letter-spacing: -1px;
+      text-align: center;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+    }
+
+    .logo-subtitle {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-top: 16px;
+      opacity: 0.5;
+    }
+
+    /* Vector SVG Match Card */
+    .vector-section {
+      margin-top: 50px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    .svg-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body.dark-mode .svg-container {
+      background: rgba(18, 24, 38, 0.5);
+    }
+
+    .svg-logo {
+      width: 100%;
+      height: auto;
+      max-height: 180px;
+      fill: var(--ink-black);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="studio-container">
+    <!-- Header Controls -->
+    <div class="controls-bar">
+      <span class="control-label">Logo Style:</span>
+      <select id="fontSelector" class="font-select" onchange="changeFont(this.value)">
+        <option value="'Great Vibes', cursive">Great Vibes (Exact Calligraphic Match)</option>
+        <option value="'Sacramento', cursive">Sacramento (Thin Loop Cursive)</option>
+        <option value="'Dancing Script', cursive">Dancing Script (Fluid Hand)</option>
+        <option value="'Satisfy', cursive">Satisfy (Smooth Signature)</option>
+        <option value="'Caveat', cursive">Caveat (Casual Hand)</option>
+      </select>
+
+      <span class="control-label" style="margin-left:12px;">Mode:</span>
+      <button class="btn-toggle" onclick="toggleTheme()">Toggle Dark / Cream</button>
+    </div>
+
+    <!-- Main Canvas Box -->
+    <div class="logo-canvas" id="logoCanvas">
+      <div id="logoText" class="logo-text">digestible</div>
+      <div class="logo-subtitle">Multimodal AI Video & Audio Intelligence</div>
+    </div>
+
+    <!-- High-Fidelity Vector SVG Section -->
+    <div class="vector-section">
+      <div class="section-title">Clean Inline SVG Calligraphic Vector</div>
+      <div class="svg-container">
+        <!-- Clean Inline Vector SVG for 'digestible' Calligraphy -->
+        <svg class="svg-logo" viewBox="0 0 500 150" xmlns="http://www.w3.org/2000/svg">
+          <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" font-family="'Great Vibes', cursive" font-size="110" font-weight="normal">
+            digestible
+          </text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function changeFont(fontFamily) {
+      const logoText = document.getElementById('logoText');
+      logoText.style.fontFamily = fontFamily;
+      
+      const svgText = document.querySelector('.svg-logo text');
+      if (svgText) {
+        svgText.style.fontFamily = fontFamily;
+      }
+    }
+  </script>
+</body>
+</html>

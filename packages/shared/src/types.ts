@@ -22,6 +22,16 @@ export interface VideoMetadata {
   directStreamUrl?: string;
 }
 
+export interface AudioAnalysis {
+  fullTranscript: string;
+  speakerTone: string;
+  backgroundMusic: string;
+  speechPace: 'fast' | 'moderate' | 'slow' | 'dynamic';
+  wordsPerMinute: number;
+  clarityScore: number; // 1-100
+  audioFormatInfo?: string;
+}
+
 export interface ReelSummaryResult {
   title: string;
   summary: string;
@@ -41,6 +51,7 @@ export interface ReelSummaryResult {
   sentiment: 'positive' | 'neutral' | 'inspiring' | 'informational' | 'urgent';
   actionableInsights: string[];
   videoMetadata?: VideoMetadata;
+  audioAnalysis?: AudioAnalysis;
 }
 
 export interface CreateTaskPayload {

@@ -5,6 +5,8 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { VideoMetadata } from '@digestible/shared';
 
+import { AudioExtractorService, ExtractedAudioData } from './audioExtractor';
+
 const execFileAsync = promisify(execFile);
 const YTDLP_PATH = path.join(__dirname, '..', '..', 'yt-dlp');
 
@@ -12,6 +14,7 @@ export interface ExtractedVideoData {
   metadata: VideoMetadata;
   videoBuffer?: Buffer;
   directUrl?: string;
+  audioData?: ExtractedAudioData;
 }
 
 export class VideoExtractorService {
@@ -25,7 +28,7 @@ export class VideoExtractorService {
    * 3. Graceful fallback: return metadata only, Gemini will reason from URL + text prompt
    */
   static async extractMediaStream(reelUrl: string): Promise<ExtractedVideoData> {
-    console.log(`[VideoExtractorService] Initiating video extraction for: ${reelUrl}`);
+    console.log(`[VideoExtractorService] Initiating video & audio extraction for: ${reelUrl}`);
 
     const defaultMeta: VideoMetadata = {
       durationSeconds: 30,
@@ -33,6 +36,12 @@ export class VideoExtractorService {
       frameRate: 30,
       directStreamUrl: reelUrl,
     };
+
+    // Extract audio stream asynchronously in parallel
+    const audioPromise = AudioExtractorService.extractAudioStream(reelUrl).catch(err => {
+      console.warn('[VideoExtractorService] Audio extraction note:', err.message);
+      return undefined;
+    });
 
     // 1. If already a direct .mp4 link, download buffer directly
     if (reelUrl.includes('.mp4')) {
@@ -43,10 +52,12 @@ export class VideoExtractorService {
           timeout: 20000,
           headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' },
         });
+        const audioData = await audioPromise;
         return {
           metadata: defaultMeta,
           videoBuffer: Buffer.from(response.data),
           directUrl: reelUrl,
+          audioData,
         };
       } catch (e: any) {
         console.warn('[VideoExtractorService] Direct MP4 download failed:', e.message);
@@ -80,6 +91,8 @@ export class VideoExtractorService {
               durationSeconds = meta.duration || 30;
             } catch {}
 
+            const audioData = await audioPromise;
+
             // Download binary buffer
             try {
               const bufferRes = await axios.get(directUrl, {
@@ -90,12 +103,14 @@ export class VideoExtractorService {
                 metadata: { durationSeconds, resolution: '1080x1920 (Vertical 9:16)', frameRate: 30, directStreamUrl: directUrl },
                 videoBuffer: Buffer.from(bufferRes.data),
                 directUrl,
+                audioData,
               };
             } catch (downloadErr: any) {
               console.warn('[VideoExtractorService] Buffer download failed, returning URL only:', downloadErr.message);
               return {
                 metadata: { durationSeconds, resolution: '1080x1920 (Vertical 9:16)', frameRate: 30, directStreamUrl: directUrl },
                 directUrl,
+                audioData,
               };
             }
           }
@@ -105,8 +120,10 @@ export class VideoExtractorService {
       }
     }
 
+    const audioData = await audioPromise;
+
     // 3. Graceful fallback — Gemini will use the public URL + text prompt for reasoning
     console.log('[VideoExtractorService] All extraction methods failed — Gemini will use URL-based reasoning.');
-    return { metadata: defaultMeta };
+    return { metadata: defaultMeta, audioData };
   }
 }

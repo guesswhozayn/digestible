@@ -12,7 +12,8 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().url('Invalid SUPABASE_URL format').or(z.string().min(1)),
   SUPABASE_ANON_KEY: z.string().min(1, 'SUPABASE_ANON_KEY is required'),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
-  GEMINI_API_KEY: z.string().min(1, 'GEMINI_API_KEY is required'),
+  OPENROUTER_API_KEY: z.string().min(1, 'OPENROUTER_API_KEY is required for commercial AI models'),
+  OPENROUTER_MODEL: z.string().default('openrouter/auto'),
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -26,5 +27,6 @@ export const config = envSchema.parse({
   SUPABASE_URL: process.env.SUPABASE_URL || 'https://demo-project.supabase.co',
   SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || 'demo-anon-key',
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || 'demo-service-role-key',
-  GEMINI_API_KEY: process.env.GEMINI_API_KEY || 'demo-gemini-key',
+  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || 'sk-or-v1-demo-key',
+  OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || 'openrouter/auto',
 });

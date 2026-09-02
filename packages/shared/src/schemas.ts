@@ -32,6 +32,16 @@ export const videoMetadataSchema = z.object({
   directStreamUrl: z.string().optional(),
 });
 
+export const audioAnalysisSchema = z.object({
+  fullTranscript: z.string(),
+  speakerTone: z.string(),
+  backgroundMusic: z.string(),
+  speechPace: z.enum(['fast', 'moderate', 'slow', 'dynamic']),
+  wordsPerMinute: z.number(),
+  clarityScore: z.number().min(1).max(100),
+  audioFormatInfo: z.string().optional(),
+});
+
 export const reelSummarySchema = z.object({
   title: z.string(),
   summary: z.string(),
@@ -51,4 +61,5 @@ export const reelSummarySchema = z.object({
   sentiment: z.enum(['positive', 'neutral', 'inspiring', 'informational', 'urgent']),
   actionableInsights: z.array(z.string()),
   videoMetadata: videoMetadataSchema.optional(),
+  audioAnalysis: audioAnalysisSchema.optional(),
 });

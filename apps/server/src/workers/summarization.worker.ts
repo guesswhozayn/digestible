@@ -1,7 +1,7 @@
 import { Worker, Job } from 'bullmq';
 import { redisConnectionOptions } from '../config/redis';
 import { AI_GENERATION_QUEUE_NAME, SummarizationJobData } from '../queues/summarization.queue';
-import { GeminiService } from '../services/gemini';
+import { AIService } from '../services/aiProvider';
 import { supabaseAdmin } from '../config/supabase';
 
 export function setupSummarizationWorker() {
@@ -22,9 +22,9 @@ export function setupSummarizationWorker() {
           console.warn(`[Worker] Warning updating DB status to processing for ${taskId}:`, updateError.message);
         }
 
-        // Step 2: Invoke Gemini 2.5 Flash via GeminiService
-        console.log(`[Worker] Invoking Gemini 2.5 Flash for Task ${taskId}...`);
-        const summaryResult = await GeminiService.summarizeReel(reelUrl, prompt);
+        // Step 2: Invoke AI Provider (OpenRouter or Gemini)
+        console.log(`[Worker] Invoking AI Provider for Task ${taskId}...`);
+        const summaryResult = await AIService.summarizeReel(reelUrl, prompt);
 
         // Step 3: Persist result directly to Supabase PostgreSQL table
         const { error: completeError } = await supabaseAdmin
