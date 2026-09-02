@@ -1,0 +1,173 @@
+/* ==========================================================================
+   Digestible Web Landing Page — Cliento Inspired Design System
+   Palette: Off-White Canvas (#FBFBFC) / Warm Burnt Orange Accent (#FF5B22) /
+            Deep Charcoal (#0F172A & #121316) / Playfair Display Serif Typography
+   ========================================================================== */
+
+:root {
+  /* Canvas & Base Palette */
+  --bg-main: #fbfbfc;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f3f4f6;
+  --bg-dark-section: #121316;
+  --bg-dark-card: #1c1e22;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-light: #ffffff;
+
+  /* Cliento Signature Burnt Orange Accent */
+  --accent-orange: #ff5b22;
+  --accent-orange-hover: #e04b18;
+  --accent-orange-light: rgba(255, 91, 34, 0.1);
+  --accent-orange-gradient: linear-gradient(135deg, #ff6b35 0%, #ff5b22 100%);
+
+  /* Borders & Shadows */
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-pill: 9999px;
+
+  --shadow-subtle: 0 10px 30px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.06);
+  --shadow-orange: 0 12px 30px -5px rgba(255, 91, 34, 0.35);
+
+  /* Typography: Instrument Serif for Display & Portfolio System Stack */
+  --font-serif: 'Instrument Serif', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  background-color: var(--bg-main);
+  /* Subtle Background Grid Line Pattern from Cliento reference */
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Serif Utility Class */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Cliento Signature Dark Capsule Button with Embedded Orange Square Arrow (Get early access ↗) */
+.btn-cliento {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #1c1e22;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 8px 8px 24px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cliento .arrow-square {
+  width: 38px;
+  height: 38px;
+  background: var(--accent-orange);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.btn-cliento:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+  background: #0f172a;
+}
+
+.btn-cliento:hover .arrow-square {
+  transform: scale(1.05) translate(2px, -2px);
+  background: var(--accent-orange-hover);
+}
+
+/* Cliento Light Outline Capsule Button */
+.btn-cliento-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-light);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.btn-cliento-light:hover {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+  transform: translateY(-2px);
+}
+
+/* Badge Pill (Cliento Style) */
+.badge-pill-cliento {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-orange);
+}

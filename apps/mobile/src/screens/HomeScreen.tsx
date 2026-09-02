@@ -21,7 +21,7 @@ import {
 } from '@expo-google-fonts/poppins';
 import { Satisfy_400Regular } from '@expo-google-fonts/satisfy';
 import * as Linking from 'expo-linking';
-import Svg, { Path, Rect, Defs, LinearGradient, Stop, Circle as SvgCircle } from 'react-native-svg';
+import Svg, { Path, Rect, Defs, LinearGradient, Stop, Mask, Circle as SvgCircle } from 'react-native-svg';
 import {
   Sun,
   Moon,
@@ -56,22 +56,25 @@ const PRESET_INTENTS = [
   { id: 'recipe', label: 'Ingredients & Recipe', prompt: 'Extract recipe ingredients, cooking steps, and measurements.' },
 ];
 
-function AbstractDLogo({ size = 30, color = '#89BDF9', cutoutColor = '#0F0F11' }: { size?: number; color?: string; cutoutColor?: string }) {
+function AbstractDLogo({ size = 30, color = '#FF5B22' }: { size?: number; color?: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 40 40" fill="none">
       <Defs>
         <LinearGradient id="organicDGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-          <Stop offset="0%" stopColor={color} />
-          <Stop offset="100%" stopColor="#38BDF8" />
+          <Stop offset="0%" stopColor="#FF6B35" />
+          <Stop offset="100%" stopColor={color} />
         </LinearGradient>
+        <Mask id="organicDMask">
+          <Rect width="40" height="40" fill="#FFFFFF" />
+          <SvgCircle cx="16" cy="20" r="4.5" fill="#000000" />
+        </Mask>
       </Defs>
-      {/* Concept 12: Organic Fluid D Silhouette */}
+      {/* Digestible Organic D Silhouette */}
       <Path
         d="M 8 4 C 18 4 34 8 34 20 C 34 32 18 36 8 36 C 3.5 36 3.5 4 8 4 Z"
         fill="url(#organicDGrad)"
+        mask="url(#organicDMask)"
       />
-      {/* Center Aperture Core */}
-      <SvgCircle cx="16" cy="20" r="4.5" fill={cutoutColor} />
     </Svg>
   );
 }
