@@ -1,0 +1,23 @@
+{
+  "name": "digestible-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace=apps/server",
+    "dev:mobile": "npm run start --workspace=apps/mobile",
+    "build:shared": "npm run build --workspace=packages/shared",
+    "build:server": "npm run build --workspace=apps/server",
+    "check-types": "npm run check-types --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~4.0.1",
+    "react-dom": "18.3.1",
+    "react-native-web": "~0.19.13"
+  }
+}
