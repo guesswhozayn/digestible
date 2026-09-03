@@ -134,22 +134,16 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                 }}
               />
 
-              <button type="submit" className="btn-cliento" disabled={status === 'extracting'}>
-                {status === 'extracting' ? (
-                  <>
-                    <span>Processing...</span>
-                    <div className="arrow-square">
-                      <RefreshCw size={18} className="animate-spin" />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <span>Digest Reel</span>
-                    <div className="arrow-square">
-                      <Zap size={18} />
-                    </div>
-                  </>
-                )}
+              <button type="submit" className="btn-expand-hover" disabled={status === 'extracting'} style={{ opacity: status === 'extracting' ? 0.7 : 1 }}>
+                <span className="btn-text">{status === 'extracting' ? 'Processing...' : 'Digest Reel'}</span>
+                <div className="btn-icon-wrapper">
+                  <div className="btn-icon-bg"></div>
+                  {status === 'extracting' ? (
+                    <RefreshCw size={20} strokeWidth={2} className="animate-spin" />
+                  ) : (
+                    <Zap size={20} strokeWidth={2} />
+                  )}
+                </div>
               </button>
             </div>
 

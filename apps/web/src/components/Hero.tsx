@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 interface HeroProps {
   onNavigateToSummarizer: () => void;
@@ -50,10 +50,11 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
 
         {/* Primary Action Capsule Button (Replaces Get early access) */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <button onClick={onNavigateToSummarizer} className="btn-cliento">
-            <span>Try Digestible Now</span>
-            <div className="arrow-square">
-              <ArrowUpRight size={20} />
+          <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
+            <span className="btn-text">Try Digestible Now</span>
+            <div className="btn-icon-wrapper">
+              <div className="btn-icon-bg"></div>
+              <ArrowRight strokeWidth={2} />
             </div>
           </button>
         </div>

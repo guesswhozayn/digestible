@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AbstractDLogo } from './Logo';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Menu, X, ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
   onNavigateToSummarizer: () => void;
@@ -73,11 +73,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
             Login
           </button>
 
-          {/* Cliento Action Capsule Button -> Navigates to Summarizer Page */}
-          <button onClick={onNavigateToSummarizer} className="btn-cliento">
-            <span>Try Digestible Now</span>
-            <div className="arrow-square">
-              <ArrowUpRight size={18} />
+          {/* Primary Action Capsule Button -> Navigates to Summarizer Page */}
+          <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
+            <span className="btn-text">Try Digestible Now</span>
+            <div className="btn-icon-wrapper">
+              <div className="btn-icon-bg"></div>
+              <ArrowRight strokeWidth={2} />
             </div>
           </button>
 
@@ -136,12 +137,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
                 setMobileMenuOpen(false);
                 onNavigateToSummarizer();
               }}
-              className="btn-cliento"
+              className="btn-expand-hover"
               style={{ width: '100%', justifyContent: 'center' }}
             >
-              <span>Try Digestible Now</span>
-              <div className="arrow-square">
-                <ArrowUpRight size={18} />
+              <span className="btn-text">Try Digestible Now</span>
+              <div className="btn-icon-wrapper">
+                <div className="btn-icon-bg"></div>
+                <ArrowRight strokeWidth={2} />
               </div>
             </button>
           </div>

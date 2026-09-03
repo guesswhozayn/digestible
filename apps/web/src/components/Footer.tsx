@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
 interface FooterProps {
   onNavigateToSummarizer: () => void;
@@ -46,10 +46,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
               Start digesting video reels instantly with our AI summarizer
             </p>
 
-            <button onClick={onNavigateToSummarizer} className="btn-cliento">
-              <span>Try Digestible Now</span>
-              <div className="arrow-square">
-                <ArrowUpRight size={18} />
+            <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
+              <span className="btn-text">Try Digestible Now</span>
+              <div className="btn-icon-wrapper">
+                <div className="btn-icon-bg"></div>
+                <ArrowRight strokeWidth={2} />
               </div>
             </button>
           </div>

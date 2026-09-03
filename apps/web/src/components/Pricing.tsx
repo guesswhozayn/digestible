@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, ArrowUpRight } from 'lucide-react';
+import { Check, ArrowUpRight, ArrowRight } from 'lucide-react';
 
 interface PricingProps {
   onNavigateToSummarizer: () => void;
@@ -169,10 +169,11 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
               <PricingFeature text="Cloud Sync Across Devices" />
             </ul>
 
-            <button onClick={onNavigateToSummarizer} className="btn-cliento" style={{ justifyContent: 'center' }}>
-              <span>Try Digestible Free</span>
-              <div className="arrow-square">
-                <ArrowUpRight size={18} />
+            <button onClick={onNavigateToSummarizer} className="btn-expand-hover" style={{ width: '100%', justifyContent: 'center' }}>
+              <span className="btn-text">Try Digestible Free</span>
+              <div className="btn-icon-wrapper">
+                <div className="btn-icon-bg"></div>
+                <ArrowRight strokeWidth={2} />
               </div>
             </button>
           </div>
