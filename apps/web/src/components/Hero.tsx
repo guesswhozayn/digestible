@@ -1,6 +1,12 @@
 import React from 'react';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 
+const integrationBrands = [
+  { name: 'Instagram Reels', src: '/reels.svg', typographyText: 'Reels', font: '"Montserrat", sans-serif' },
+  { name: 'YouTube Shorts', src: '/shorts.svg', typographyText: 'Shorts', font: '"Oswald", sans-serif' },
+  { name: 'TikTok', src: '/tiktok.svg' },
+];
+
 interface HeroProps {
   onNavigateToSummarizer: () => void;
 }
@@ -91,23 +97,21 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
           </div>
         </div>
 
-        {/* Integration Bar */}
-        <div
-          style={{
-            borderTop: '1px solid var(--border-light)',
-            paddingTop: '40px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '48px',
-            flexWrap: 'wrap',
-            opacity: 0.65,
-          }}
-        >
-          <span style={partnerLogoStyle}>Instagram Reels</span>
-          <span style={partnerLogoStyle}>YouTube Shorts</span>
-          <span style={partnerLogoStyle}>TikTok Clips</span>
-          <span style={partnerLogoStyle}>Video Notes</span>
+      </div>
+
+      {/* Integration Bar */}
+      <div className="integration-marquee-wrapper">
+        <div className="integration-marquee-content">
+          {Array.from({ length: 6 }).flatMap(() => integrationBrands).map((brand, i) => (
+            <div key={i} className="integration-brand-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <img src={brand.src} alt={brand.name} style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+              {brand.typographyText && (
+                <span style={{ fontFamily: brand.font || 'inherit', fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+                  {brand.typographyText}
+                </span>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -130,9 +134,4 @@ const orangeDotStyle: React.CSSProperties = {
   background: '#FF5B22',
 };
 
-const partnerLogoStyle: React.CSSProperties = {
-  fontSize: '17px',
-  fontWeight: 800,
-  color: '#0F172A',
-  letterSpacing: '-0.5px',
-};
+
