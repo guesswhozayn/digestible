@@ -1,14 +1,9 @@
 @font-face {
-  font-family: "Eina";
-  src: url("Eina.otf");
+  font-family: "SF Pro";
+  src: local("SF Pro Text"), local("SF Pro Display");
 }
 
 @font-face {
-  font-family: "Eina Bold";
-  src: url("Eina-SemiBold.otf");
-}
-
-@font-face {
-  font-family: "Eina Light";
-  src: url("Eina-Light.otf");
+  font-family: "Instrument Serif";
+  src: local("Instrument Serif");
 }

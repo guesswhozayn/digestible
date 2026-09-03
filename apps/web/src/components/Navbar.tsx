@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
 
           {/* Cliento Action Capsule Button -> Navigates to Summarizer Page */}
           <button onClick={onNavigateToSummarizer} className="btn-cliento">
-            <span>Summarize a Reel</span>
+            <span>Try Digestible Now</span>
             <div className="arrow-square">
               <ArrowUpRight size={18} />
             </div>
@@ -130,6 +130,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
           <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} style={mobileNavLinkStyle}>
             Resources
           </a>
+          <div style={{ paddingTop: '8px' }}>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onNavigateToSummarizer();
+              }}
+              className="btn-cliento"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <span>Try Digestible Now</span>
+              <div className="arrow-square">
+                <ArrowUpRight size={18} />
+              </div>
+            </button>
+          </div>
         </div>
       )}
 

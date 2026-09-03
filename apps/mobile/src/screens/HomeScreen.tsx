@@ -14,12 +14,8 @@ import {
 } from 'react-native';
 import {
   useFonts,
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from '@expo-google-fonts/poppins';
-import { Satisfy_400Regular } from '@expo-google-fonts/satisfy';
+  InstrumentSerif_400Regular,
+} from '@expo-google-fonts/instrument-serif';
 import * as Linking from 'expo-linking';
 import Svg, { Path, Rect, Defs, LinearGradient, Stop, Mask, Circle as SvgCircle } from 'react-native-svg';
 import {
@@ -81,11 +77,7 @@ function AbstractDLogo({ size = 30, color = '#FF5B22' }: { size?: number; color?
 
 export function HomeScreen() {
   const [fontsLoaded] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-    Poppins_700Bold,
-    Satisfy_400Regular,
+    InstrumentSerif_400Regular,
   });
 
   const [currentScreen, setCurrentScreen] = useState<'home' | 'result' | 'history' | 'how_it_works'>('home');
@@ -168,11 +160,11 @@ export function HomeScreen() {
     }
   }, [isSubmitting]);
 
-  const fontRegular = fontsLoaded ? 'Poppins_400Regular' : Platform.OS === 'ios' ? 'System' : 'sans-serif';
-  const fontMedium = fontsLoaded ? 'Poppins_500Medium' : Platform.OS === 'ios' ? 'System' : 'sans-serif-medium';
-  const fontSemiBold = fontsLoaded ? 'Poppins_600SemiBold' : Platform.OS === 'ios' ? 'System' : 'sans-serif-medium';
-  const fontBold = fontsLoaded ? 'Poppins_700Bold' : Platform.OS === 'ios' ? 'System' : 'sans-serif-bold';
-  const fontSatisfy = fontsLoaded ? 'Satisfy_400Regular' : 'cursive';
+  const fontRegular = Platform.OS === 'ios' ? 'SF Pro Text' : 'System';
+  const fontMedium = Platform.OS === 'ios' ? 'SF Pro Text' : 'System';
+  const fontSemiBold = Platform.OS === 'ios' ? 'SF Pro Display' : 'System';
+  const fontBold = Platform.OS === 'ios' ? 'SF Pro Display' : 'System';
+  const fontSerif = fontsLoaded ? 'InstrumentSerif_400Regular' : Platform.OS === 'ios' ? 'Instrument Serif' : 'serif';
 
   useEffect(() => {
     fetchRecentTasks();
@@ -489,8 +481,8 @@ export function HomeScreen() {
             {/* HERO CARD EMBEDDED LOGO PILL WITH TOP CARD LAUNCHER BUTTONS */}
             <View style={[styles.heroLogoPill, { backgroundColor: theme.heroPillBg, borderColor: theme.accent }]}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <AbstractDLogo size={28} color={theme.accent} cutoutColor={theme.heroPillBg} />
-                <Text style={[styles.title, { fontFamily: fontSatisfy, fontSize: 30, color: theme.textPrimary, textTransform: 'lowercase', marginLeft: 8 }]}>
+                <AbstractDLogo size={28} color={theme.accent} />
+                <Text style={[styles.title, { fontFamily: fontSerif, fontSize: 28, color: theme.textPrimary, marginLeft: 8 }]}>
                   digestible
                 </Text>
               </View>
@@ -635,8 +627,8 @@ export function HomeScreen() {
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => setCurrentScreen('home')}
               >
-                <AbstractDLogo size={28} color={theme.accent} cutoutColor={theme.heroPillBg} />
-                <Text style={[styles.title, { fontFamily: fontSatisfy, fontSize: 30, color: theme.textPrimary, textTransform: 'lowercase', marginLeft: 8 }]}>
+                <AbstractDLogo size={28} color={theme.accent} />
+                <Text style={[styles.title, { fontFamily: fontSerif, fontSize: 28, color: theme.textPrimary, marginLeft: 8 }]}>
                   digestible
                 </Text>
               </TouchableOpacity>
@@ -706,8 +698,8 @@ export function HomeScreen() {
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => setCurrentScreen('home')}
               >
-                <AbstractDLogo size={28} color={theme.accent} cutoutColor={theme.heroPillBg} />
-                <Text style={[styles.title, { fontFamily: fontSatisfy, fontSize: 30, color: theme.textPrimary, textTransform: 'lowercase', marginLeft: 8 }]}>
+                <AbstractDLogo size={28} color={theme.accent} />
+                <Text style={[styles.title, { fontFamily: fontSerif, fontSize: 28, color: theme.textPrimary, marginLeft: 8 }]}>
                   digestible
                 </Text>
               </TouchableOpacity>
@@ -773,8 +765,8 @@ export function HomeScreen() {
                 style={{ flexDirection: 'row', alignItems: 'center' }}
                 onPress={() => setCurrentScreen('home')}
               >
-                <AbstractDLogo size={28} color={theme.accent} cutoutColor={theme.heroPillBg} />
-                <Text style={[styles.title, { fontFamily: fontSatisfy, fontSize: 30, color: theme.textPrimary, textTransform: 'lowercase', marginLeft: 8 }]}>
+                <AbstractDLogo size={28} color={theme.accent} />
+                <Text style={[styles.title, { fontFamily: fontSerif, fontSize: 28, color: theme.textPrimary, marginLeft: 8 }]}>
                   digestible
                 </Text>
               </TouchableOpacity>

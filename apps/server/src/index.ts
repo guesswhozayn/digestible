@@ -27,9 +27,9 @@ const worker = setupSummarizationWorker();
 
 // Start HTTP Server
 const server = app.listen(config.PORT, () => {
-  console.log(`🚀 Digestible API Server listening on port ${config.PORT} [${config.NODE_ENV}]`);
-  console.log(`📌 Health check: http://localhost:${config.PORT}/health`);
-  console.log(`📌 Tasks API: http://localhost:${config.PORT}/api/tasks`);
+  console.log(`Digestible API Server listening on port ${config.PORT} [${config.NODE_ENV}]`);
+  console.log(`Health check: http://localhost:${config.PORT}/health`);
+  console.log(`Tasks API: http://localhost:${config.PORT}/api/tasks`);
 });
 
 // Graceful Shutdown

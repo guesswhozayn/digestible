@@ -35,9 +35,9 @@
   --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.06);
   --shadow-orange: 0 12px 30px -5px rgba(255, 91, 34, 0.35);
 
-  /* Typography: Instrument Serif for Display & Portfolio System Stack */
+  /* Typography: Instrument Serif & SF Pro System Font Stack */
   --font-serif: 'Instrument Serif', serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro", "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "SF Pro", "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
@@ -79,44 +79,94 @@ body {
 }
 
 /* Cliento Signature Dark Capsule Button with Embedded Orange Square Arrow (Get early access ↗) */
+/* Cliento Signature Dark Capsule Button with Embedded Glowing Orange Arrow Tile */
 .btn-cliento {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #1c1e22;
+  background: linear-gradient(135deg, #1c1e24 0%, #0f172a 100%);
   color: #ffffff;
   font-weight: 600;
   font-size: 15px;
-  padding: 8px 8px 8px 24px;
+  letter-spacing: -0.2px;
+  padding: 7px 7px 7px 22px;
   border-radius: var(--radius-pill);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  isolation: isolate;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 10px 25px -4px rgba(15, 23, 42, 0.3),
+    0 4px 15px -2px rgba(255, 91, 34, 0.18),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.btn-cliento::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.btn-cliento span {
+  position: relative;
+  z-index: 2;
+  white-space: nowrap;
 }
 
 .btn-cliento .arrow-square {
-  width: 38px;
-  height: 38px;
-  background: var(--accent-orange);
+  position: relative;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff5b22 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  transition: transform 0.25s ease, background-color 0.25s ease;
+  box-shadow: 0 4px 14px rgba(255, 91, 34, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .btn-cliento:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
-  background: #0f172a;
+  background: linear-gradient(135deg, #242832 0%, #131c33 100%);
+  border-color: rgba(255, 91, 34, 0.45);
+  box-shadow: 
+    0 16px 36px -6px rgba(255, 91, 34, 0.35),
+    0 8px 24px -4px rgba(15, 23, 42, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.btn-cliento:hover::before {
+  left: 140%;
 }
 
 .btn-cliento:hover .arrow-square {
-  transform: scale(1.05) translate(2px, -2px);
-  background: var(--accent-orange-hover);
+  transform: scale(1.08) translate(2px, -2px);
+  background: linear-gradient(135deg, #ff7a47 0%, #e04b18 100%);
+  box-shadow: 0 6px 18px rgba(255, 91, 34, 0.6);
+}
+
+.btn-cliento:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
 }
 
 /* Cliento Light Outline Capsule Button */

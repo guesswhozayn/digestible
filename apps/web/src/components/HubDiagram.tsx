@@ -93,20 +93,16 @@ export const HubDiagram: React.FC = () => {
             }}
           />
 
-          {/* Center Hub: Digestible Emblem Only */}
+          {/* Center Hub: Digestible Logo Only (Without Background) */}
           <div
             style={{
-              background: 'linear-gradient(135deg, #FF6B35 0%, #FF5B22 100%)',
-              borderRadius: '24px',
-              width: '140px',
-              height: '140px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 20px 40px rgba(255, 91, 34, 0.35)',
+              padding: '16px',
             }}
           >
-            <AbstractDLogo size={54} showText={false} color="#FFFFFF" />
+            <AbstractDLogo size={80} showText={false} color="#FF5B22" />
           </div>
 
           {/* Dotted Connecting Lines */}
