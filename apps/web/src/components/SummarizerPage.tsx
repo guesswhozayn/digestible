@@ -59,9 +59,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
       <main className="container" style={{ paddingTop: '160px', maxWidth: '900px' }}>
         {/* Page Title */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>
-            <span>Reel Summarizer</span>
-          </span>
           <h1
             className="font-serif"
             style={{
