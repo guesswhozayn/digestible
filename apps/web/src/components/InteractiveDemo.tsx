@@ -89,11 +89,11 @@ export const InteractiveDemo: React.FC<InteractiveDemoProps> = ({ selectedUrl })
   };
 
   return (
-    <section id="demo" style={{ padding: '80px 0' }}>
+    <section id="demo" style={{ padding: '100px 0' }}>
       <div className="container">
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <span className="badge-pill" style={{ marginBottom: '16px' }}>
+          <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>
             <Sparkles size={14} color="var(--accent-start)" />
             <span>Live Interactive Simulator</span>
           </span>

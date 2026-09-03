@@ -28,7 +28,7 @@ export const FAQ: React.FC = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section style={{ padding: '80px 0', background: 'var(--bg-glass)' }}>
+    <section style={{ padding: '100px 0', background: 'var(--bg-glass)' }}>
       <div className="container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>

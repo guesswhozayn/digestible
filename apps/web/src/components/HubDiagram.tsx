@@ -15,13 +15,7 @@ export const HubDiagram: React.FC = () => {
           Clear insights, zero wasted time, and every video summary organized in one space without clutter.
         </p>
         
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between',
-          gap: '20px',
-          marginTop: '40px'
-        }}>
+        <div className="responsive-flex-row" style={{ marginTop: '40px' }}>
           {/* Left Side (Mess) */}
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
             <div style={{ ...scatteredTagStyle, marginLeft: '40px' }}>Wasted time watching</div>

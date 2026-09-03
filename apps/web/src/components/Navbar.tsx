@@ -4,9 +4,10 @@ import { ArrowUpRight, Menu, X, ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
   onNavigateToSummarizer: () => void;
+  onNavigateToHome?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNavigateToHome }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -40,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         {/* Left: Brand Logo */}
-        <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+        <a href="#" onClick={(e) => { e.preventDefault(); onNavigateToHome?.(); }} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <AbstractDLogo size={30} textColor="#0F172A" />
         </a>
 
@@ -69,12 +70,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer }) => {
 
         {/* Right: Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-          <button onClick={onNavigateToSummarizer} style={{ ...navLinkStyle, background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px' }}>
-            Login
-          </button>
 
           {/* Primary Action Capsule Button -> Navigates to Summarizer Page */}
-          <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
+          <button onClick={onNavigateToSummarizer} className="btn-expand-hover desktop-only">
             <span className="btn-text">Try Digestible Now</span>
             <div className="btn-icon-wrapper">
               <div className="btn-icon-bg"></div>

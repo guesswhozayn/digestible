@@ -40,7 +40,7 @@ export const Features: React.FC = () => {
       <div className="container">
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <span className="badge-pill" style={{ marginBottom: '16px' }}>
+          <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>
             <Sparkles size={14} color="#89BDF9" />
             <span>Multimodal Intelligence</span>
           </span>
@@ -53,7 +53,7 @@ export const Features: React.FC = () => {
         </div>
 
         {/* Feature Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '24px' }}>
           {FEATURES.map((feature, idx) => (
             <div key={idx} className="glass-card" style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'var(--bg-glass)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid var(--border-card)' }}>

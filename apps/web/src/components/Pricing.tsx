@@ -86,7 +86,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
         </div>
 
         {/* Pricing Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', maxWidth: '1120px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '32px', maxWidth: '1120px', margin: '0 auto' }}>
           {/* Free Tier */}
           <div
             style={{

@@ -48,7 +48,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
             maxWidth: '680px',
             margin: '0 auto 36px auto',
             lineHeight: 1.5,
-            fontWeight: 400,
+            fontWeight: 300,
           }}
         >
           Replaces scattered saved videos, long audio clips, and forgotten links with one clean space for quick recipes, guides, and takeaways.
@@ -64,39 +64,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
             </div>
           </button>
         </div>
-
-        {/* Feature Tag Row */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: '24px',
-            flexWrap: 'wrap',
-            marginBottom: '70px',
-          }}
-        >
-          <div style={featureTagStyle}>
-            <span style={orangeDotStyle} />
-            <span>Saved Reels</span>
-          </div>
-
-          <div style={featureTagStyle}>
-            <span style={orangeDotStyle} />
-            <span>Step-by-Step Guides</span>
-          </div>
-
-          <div style={featureTagStyle}>
-            <span style={orangeDotStyle} />
-            <span>Key Takeaways</span>
-          </div>
-
-          <div style={featureTagStyle}>
-            <span style={orangeDotStyle} />
-            <span>Action Checklists</span>
-          </div>
-        </div>
-
       </div>
 
       {/* Integration Bar */}

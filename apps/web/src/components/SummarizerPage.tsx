@@ -55,32 +55,8 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-primary)', paddingBottom: '80px' }}>
-      {/* Top Bar */}
-      <header
-        style={{
-          borderBottom: '1px solid var(--border-light)',
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(20px)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 50,
-          padding: '16px 0',
-        }}
-      >
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div onClick={onBackToLanding} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-            <AbstractDLogo size={28} textColor="#0F172A" />
-          </div>
-
-          <button onClick={onBackToLanding} className="btn-cliento-light" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <ArrowLeft size={16} />
-            <span>Back to Home</span>
-          </button>
-        </div>
-      </header>
-
       {/* Main Container */}
-      <main className="container" style={{ paddingTop: '60px', maxWidth: '900px' }}>
+      <main className="container" style={{ paddingTop: '160px', maxWidth: '900px' }}>
         {/* Page Title */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>

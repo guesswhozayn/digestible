@@ -23,28 +23,28 @@ export const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (currentView === 'summarizer') {
-    return <SummarizerPage onBackToLanding={goToLanding} />;
-  }
-
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-primary)', position: 'relative' }}>
       {/* Top Navigation */}
-      <Navbar onNavigateToSummarizer={goToSummarizer} />
+      <Navbar onNavigateToSummarizer={goToSummarizer} onNavigateToHome={goToLanding} />
 
-      {/* Main Landing Sections */}
-      <main>
-        <Hero onNavigateToSummarizer={goToSummarizer} />
-        <HubDiagram />
-        <BentoGrid />
-        <MobileAppShowcase />
-        <HowItWorks />
-        <Pricing onNavigateToSummarizer={goToSummarizer} />
-        <FAQ />
-      </main>
+      {/* Page Content */}
+      {currentView === 'summarizer' ? (
+        <SummarizerPage onBackToLanding={goToLanding} />
+      ) : (
+        <main>
+          <Hero onNavigateToSummarizer={goToSummarizer} />
+          <HubDiagram />
+          <BentoGrid />
+          <MobileAppShowcase />
+          <HowItWorks />
+          <Pricing onNavigateToSummarizer={goToSummarizer} />
+          <FAQ />
+        </main>
+      )}
 
       {/* Editorial Footer */}
-      <Footer onNavigateToSummarizer={goToSummarizer} />
+      {currentView === 'landing' && <Footer onNavigateToSummarizer={goToSummarizer} />}
     </div>
   );
 };
