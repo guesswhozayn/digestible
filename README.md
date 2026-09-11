@@ -29,7 +29,6 @@ digestible/
 ├── package.json               # Root workspace configuration
 ├── package-lock.json
 ├── schema.sql                 # Supabase PostgreSQL schema and RLS policies
-├── tsconfig.base.json         # Base TypeScript configuration
 ├── client/                    # Vite and React web client
 │   ├── index.html
 │   ├── package.json
@@ -100,7 +99,7 @@ digestible/
 ### Server Application (`server/`)
 - Runtime: Node.js, Express 4
 - Process Execution: ts-node-dev
-- AI Providers: Google GenAI SDK (`@google/genai`), OpenRouter REST API
+- AI Providers: OpenRouter REST API (Claude 3.5, Gemini 2.5 Flash, Auto)
 - Queuing and Caching: BullMQ 5, Redis (`ioredis` 5)
 - Database Client: Supabase JS (`@supabase/supabase-js`)
 - HTTP Client: Axios
@@ -147,8 +146,8 @@ CREATE TYPE summary_status AS ENUM ('pending', 'processing', 'completed', 'faile
 | PORT | Port for Express server | 4000 |
 | SUPABASE_URL | Supabase project URL | https://xyzcompany.supabase.co |
 | SUPABASE_SERVICE_ROLE_KEY | Supabase service role key with write permissions | eyJhbGciOi... |
-| GEMINI_API_KEY | Google Gemini API Key | AIzaSy... |
-| OPENROUTER_API_KEY | OpenRouter API Key for fallback LLM generation | sk-or-v1-... |
+| OPENROUTER_API_KEY | OpenRouter API Key for AI summarization | sk-or-v1-... |
+| OPENROUTER_MODEL | OpenRouter model identifier | openrouter/auto |
 | REDIS_HOST | Redis host for BullMQ queues | 127.0.0.1 |
 | REDIS_PORT | Redis port | 6379 |
 | REDIS_PASSWORD | Redis authentication password (optional) | |
