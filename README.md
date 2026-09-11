@@ -1,84 +1,134 @@
 # Digestible
 
-Digestible is an AI-powered media digestion and content summarization platform. It transforms short-form video reels, audio streams, and web content into structured, actionable written summaries. The platform consists of a backend processing engine and a responsive web client.
+> Turn 60-second video reels into 15-second actionable knowledge.
+
+Digestible is an AI-powered media digestion and content summarization platform. It transforms short-form video reels (Instagram Reels, YouTube Shorts, and TikToks) and audio streams into clean, structured, and actionable written digests.
+
+The platform is organized as a clean two-package workspace:
+- **`client/`**: Modern, responsive React 18 & Vite web application featuring an interactive landing page and a full-featured reel summarizer dashboard.
+- **`server/`**: Scalable Node.js & Express 4 backend with background BullMQ queue workers, FFmpeg/yt-dlp media extraction, Supabase integration, and OpenRouter AI summarization.
+
+---
 
 ## Table of Contents
 
-- Overview
-- Architecture and Workspace Structure
-- Processing Pipeline
-- Technology Stack
-- Database Schema
-- Environment Configuration
-- Getting Started
-- Workspace Scripts
-- API and Queue Architecture
-- Web Client
-- License
+- [Overview](#overview)
+- [Workspace Architecture](#workspace-architecture)
+- [Processing Pipeline](#processing-pipeline)
+- [Technology Stack](#technology-stack)
+- [Prerequisites & System Dependencies](#prerequisites--system-dependencies)
+- [Getting Started](#getting-started)
+- [Workspace Scripts](#workspace-scripts)
+- [Environment Configuration](#environment-configuration)
+- [Database Schema](#database-schema)
+- [API Reference](#api-reference)
+- [Client Features](#client-features)
+- [License](#license)
+
+---
 
 ## Overview
 
-Modern short-form video formats (Instagram Reels, YouTube Shorts, TikToks) contain valuable educational, technical, and informational insights that are difficult to search, index, or review quickly. Digestible extracts the underlying audio and video data, performs speech transcription and content analysis using advanced LLMs (Google Gemini and OpenRouter), and produces structured digests that can be read in seconds on the web.
+Modern short-form video feeds contain immense educational, culinary, technical, and informational value, but:
+- Scrubbing through videos to find a specific recipe quantity or line of code is tedious.
+- Saved video collections quickly become cluttered and unsearchable.
+- Key takeaways are lost once the video ends.
 
-## Architecture and Workspace Structure
+Digestible solves this by extracting spoken audio and visual metadata, generating structured takeaways, step-by-step checklists, viral hook scores, and full searchable transcripts using multimodal LLMs via OpenRouter.
 
-Digestible is organized as a clean two-folder workspace (`client/` and `server/`):
+---
+
+## Workspace Architecture
+
+Digestible uses npm workspaces partitioned strictly into `client/` and `server/`:
 
 ```
 digestible/
-├── package.json               # Root workspace configuration
+├── package.json               # Root workspace configuration & unified scripts
 ├── package-lock.json
 ├── schema.sql                 # Supabase PostgreSQL schema and RLS policies
-├── client/                    # Vite and React web client
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.ts
-│   ├── tsconfig.json
+│
+├── client/                    # Web Client (Vite + React 18)
+│   ├── index.html             # HTML entry point with typography & SEO tags
+│   ├── package.json           # @digestible/client
+│   ├── vite.config.ts         # Vite configuration
+│   ├── tsconfig.json          # Bundler-mode TypeScript configuration
+│   ├── public/                # Static assets (reels.svg, shorts.svg, tiktok.svg)
 │   └── src/
-│       ├── App.tsx
-│       ├── index.css
-│       ├── types/             # Client domain models
-│       └── components/        # Web layout and summarizer components
-└── server/                    # Backend API, queue workers, and extractors
-    ├── package.json
-    ├── tsconfig.json
+│       ├── main.tsx           # React DOM root entry
+│       ├── App.tsx            # Root view switcher (Landing Page ↔ Summarizer)
+│       ├── index.css          # Design system tokens, utilities & animations
+│       ├── types/             # Frontend data contract definitions
+│       │   └── digest.ts      # Domain models (ReelSummaryResult, TaskStatus, etc.)
+│       └── components/        # UI components
+│           ├── Navbar.tsx     # Floating blur navbar with responsive mobile drawer
+│           ├── Hero.tsx       # Hero section with animated integration marquee
+│           ├── HubDiagram.tsx # Interactive Before → After pipeline comparison
+│           ├── BentoGrid.tsx  # Dark-mode bento feature showcase
+│           ├── HowItWorks.tsx # 3-step interactive accordion workflow
+│           ├── Pricing.tsx    # Tier cards with monthly / annual billing toggle
+│           ├── FAQ.tsx        # Expandable accordion FAQ
+│           ├── Footer.tsx     # Editorial footer with navigation directory
+│           ├── Logo.tsx       # Digestible Abstract "D" SVG branding
+│           └── SummarizerPage.tsx # Full interactive summarizer view & results tab
+│
+└── server/                    # Backend & Workers (Node.js + Express + BullMQ)
+    ├── package.json           # @digestible/server
+    ├── tsconfig.json          # Node/CommonJS TypeScript configuration
+    ├── yt-dlp                 # Standalone yt-dlp executable for reel streams
     └── src/
-        ├── index.ts           # Express server initialization
-        ├── config/            # Redis, Supabase, and environment configuration
-        ├── routes/            # Task submission and status routes
-        ├── queues/            # BullMQ queue definitions
-        ├── workers/           # Background processors for transcription and summarization
-        ├── services/          # Audio, video, and AI providers (Gemini, OpenRouter)
-        └── shared/            # Zod validation schemas and domain models
+        ├── index.ts           # Express HTTP server & worker bootstrap
+        ├── config/            # Infrastructure configuration
+        │   ├── env.ts         # Zod-validated environment variables
+        │   ├── redis.ts       # IORedis connection options
+        │   └── supabase.ts    # Supabase admin & anon client instances
+        ├── routes/
+        │   └── tasks.router.ts # Task creation and retrieval endpoints
+        ├── queues/
+        │   └── summarization.queue.ts # BullMQ queue definition & job dispatch
+        ├── workers/
+        │   └── summarization.worker.ts # Background worker processing pipeline
+        ├── services/          # Core media & AI provider services
+        │   ├── audioExtractor.ts      # FFmpeg audio isolate & duration probe
+        │   ├── videoExtractor.ts      # yt-dlp media downloader & buffer pipeline
+        │   ├── openrouter.ts          # OpenRouter multimodal LLM client
+        │   └── aiProvider.ts          # Unified AI service facade
+        └── shared/            # Contract schemas & domain interfaces
+            ├── index.ts       # Shared module entry point
+            ├── schemas.ts     # Zod schemas (createTaskSchema, reelSummarySchema)
+            └── types.ts       # Domain types (TaskRecord, VideoMetadata, etc.)
 ```
+
+---
 
 ## Processing Pipeline
 
 ```
-[ Web User ]
+[ Web Client / User ]
          |
-         | 1. Submit reel URL and custom prompt
+         | 1. Submit reel URL + optional focus prompt
          v
 +--------------------------------------------------------------+
 |                    Express API (@digestible/server)          |
-|  - Validates request payload using Zod schemas               |
+|  - Validates request payload against Zod schemas             |
 |  - Inserts pending task record into Supabase                 |
 |  - Enqueues background job into BullMQ                       |
 +------------------------------+-------------------------------+
                                |
                                v
 +--------------------------------------------------------------+
-|                    Redis BullMQ Worker Queue                 |
+|                    Redis BullMQ Queue                        |
+|  - Manages concurrency, exponential backoff, and retries     |
 +------------------------------+-------------------------------+
                                |
                                v
 +--------------------------------------------------------------+
 |                     Async Worker Pipeline                    |
-|  1. Media Download: Video extractor fetches raw video stream |
-|  2. Audio Extraction: FFmpeg isolates high-clarity audio      |
-|  3. AI Analysis: Google Gemini / OpenRouter models generate   |
-|     key takeaways, action items, and topic tags              |
-|  4. Database Update: Supabase record marked as 'completed'   |
+|  1. Media Stream: yt-dlp extracts real MP4 video stream      |
+|  2. Audio Extraction: FFmpeg isolates high-clarity MP3 audio |
+|  3. Multimodal AI: OpenRouter (Claude 3.5 / Gemini 2.5)      |
+|     generates structured key takeaways, steps, hooks & tags  |
+|  4. Database Update: Supabase row updated to 'completed'     |
 |     with structured JSONB summary payload                    |
 +------------------------------+-------------------------------+
                                |
@@ -89,137 +139,216 @@ digestible/
 +--------------------------------------------------------------+
 ```
 
+---
+
 ## Technology Stack
 
-### Monorepo and Core
-- Workspace Manager: npm workspaces (`client`, `server`)
-- Language: TypeScript 5.7
-- Validation: Zod 3.23
+### Workspace & Tooling
+- **Package Manager**: npm workspaces (`client`, `server`)
+- **Language**: TypeScript 5.7
+- **Schema Validation**: Zod 3.23
 
-### Server Application (`server/`)
-- Runtime: Node.js, Express 4
-- Process Execution: ts-node-dev
-- AI Providers: OpenRouter REST API (Claude 3.5, Gemini 2.5 Flash, Auto)
-- Queuing and Caching: BullMQ 5, Redis (`ioredis` 5)
-- Database Client: Supabase JS (`@supabase/supabase-js`)
-- HTTP Client: Axios
+### Frontend (`client/`)
+- **Framework**: React 18, Vite 6
+- **Icons**: Lucide React
+- **Typography**: Instrument Serif, Montserrat, Oswald, SF Pro Display
+- **Styling**: Custom CSS design system with HSL variables, fluid typography, glassmorphism, and responsive breakpoints
 
-### Client Application (`client/`)
-- Framework: React 18, Vite 6
-- Icons: Lucide React
-- Styling: Custom responsive CSS design system
+### Backend (`server/`)
+- **Runtime**: Node.js, Express 4
+- **Process Execution**: `ts-node-dev` (development) / `tsc` (production)
+- **Background Queuing**: BullMQ 5 with Redis (`ioredis` 5)
+- **Database & Realtime**: Supabase (`@supabase/supabase-js` 2)
+- **AI Engine**: OpenRouter API (Claude 3.5 Sonnet, Gemini 2.5 Flash, Auto)
+- **Media Processing**: `yt-dlp`, FFmpeg (`fluent-ffmpeg`)
 
-### Database
-- PostgreSQL managed via Supabase with Row Level Security (RLS)
+---
 
-## Database Schema
+## Prerequisites & System Dependencies
 
-The database is defined in `schema.sql` and includes the following primary entities:
+Ensure the following tools are installed on your system:
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
+- **Redis Server**: Running locally on port `6379` (or accessible via URL)
+- **FFmpeg**: Installed and accessible in your system `PATH` (for audio extraction)
+- **Python 3**: Required to run the local `yt-dlp` executable
+- **Supabase**: An active Supabase project with `schema.sql` applied
 
-### Status Enum
-```sql
-CREATE TYPE summary_status AS ENUM ('pending', 'processing', 'completed', 'failed');
+---
+
+## Getting Started
+
+### 1. Clone & Install Dependencies
+
+```bash
+git clone <repository-url>
+cd digestible
+npm install
 ```
 
-### Summaries Table (`public.summaries`)
-- `id` (UUID, Primary Key, auto-generated)
-- `user_id` (UUID, nullable reference to `auth.users`)
-- `reel_url` (TEXT, required source video URL)
-- `prompt` (TEXT, optional custom summarization prompt)
-- `status` (summary_status enum, defaults to 'pending')
-- `summary_data` (JSONB, structured output including title, key points, transcript, and tags)
-- `error_message` (TEXT, captures processing failures)
-- `created_at` (TIMESTAMPTZ, auto-assigned)
-- `updated_at` (TIMESTAMPTZ, maintained by trigger function)
+### 2. Configure Environment Variables
 
-### Security Policies
-- Public Read: Allows access to public summaries or user-owned summaries.
-- Unauthenticated / Authenticated Submissions: Allows insertion of new processing tasks.
-- Service Role Access: Backend workers utilize the service role key to update task progress and output data.
+Create `server/.env` with your credentials:
+
+```bash
+cp server/.env.example server/.env # or configure manually
+```
+
+Ensure Redis is running:
+```bash
+redis-server
+```
+
+### 3. Run Development Servers
+
+In the root directory, start the backend and frontend in separate terminals:
+
+```bash
+# Terminal 1: Backend API Server & BullMQ Worker (Port 4000)
+npm run dev:server
+
+# Terminal 2: Vite Web Client (Port 5173)
+npm run dev:client
+```
+
+Open `http://localhost:5173` to explore the application.
+
+---
+
+## Workspace Scripts
+
+All workspace tasks can be run directly from the root `package.json`:
+
+| Command | Description |
+| :--- | :--- |
+| `npm run dev:server` | Starts Express server with hot-reloading (`ts-node-dev`) |
+| `npm run dev:client` | Launches Vite local development server |
+| `npm run build:server` | Compiles backend TypeScript to `server/dist/` |
+| `npm run build:client` | Compiles production client bundle via Vite |
+| `npm run check-types` | Executes `tsc --noEmit` across both `client` and `server` |
+
+---
 
 ## Environment Configuration
 
 ### Server Configuration (`server/.env`)
 
-| Variable | Description | Example / Default |
-| --- | --- | --- |
-| PORT | Port for Express server | 4000 |
-| SUPABASE_URL | Supabase project URL | https://xyzcompany.supabase.co |
-| SUPABASE_SERVICE_ROLE_KEY | Supabase service role key with write permissions | eyJhbGciOi... |
-| OPENROUTER_API_KEY | OpenRouter API Key for AI summarization | sk-or-v1-... |
-| OPENROUTER_MODEL | OpenRouter model identifier | openrouter/auto |
-| REDIS_HOST | Redis host for BullMQ queues | 127.0.0.1 |
-| REDIS_PORT | Redis port | 6379 |
-| REDIS_PASSWORD | Redis authentication password (optional) | |
+| Variable | Description | Default / Example |
+| :--- | :--- | :--- |
+| `PORT` | HTTP port for Express API | `4000` |
+| `NODE_ENV` | Environment mode | `development` |
+| `REDIS_HOST` | Redis host for BullMQ queues | `127.0.0.1` |
+| `REDIS_PORT` | Redis port | `6379` |
+| `REDIS_PASSWORD` | Optional Redis password | `""` |
+| `SUPABASE_URL` | Supabase project URL | `https://your-project.supabase.co` |
+| `SUPABASE_ANON_KEY` | Supabase public anon key | `eyJhbGciOi...` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (write permissions) | `eyJhbGciOi...` |
+| `OPENROUTER_API_KEY` | OpenRouter API Key for commercial LLMs | `sk-or-v1-...` |
+| `OPENROUTER_MODEL` | Target OpenRouter model identifier | `openrouter/auto` |
 
-### Client Configuration (`client/.env`)
+---
 
-| Variable | Description | Example / Default |
-| --- | --- | --- |
-| VITE_SUPABASE_URL | Supabase project URL | https://xyzcompany.supabase.co |
-| VITE_SUPABASE_ANON_KEY | Supabase public anonymous API key | eyJhbGciOi... |
-| VITE_API_URL | Server backend URL | http://localhost:4000/api |
+## Database Schema
 
-## Getting Started
+Apply `schema.sql` in your Supabase SQL Editor:
 
-### Prerequisites
-- Node.js version 18 or higher
-- npm version 9 or higher
-- Redis server installed and running locally on port 6379
-- Supabase project with `schema.sql` applied
+- **Custom Enum**: `summary_status ('pending', 'processing', 'completed', 'failed')`
+- **Table `public.summaries`**:
+  - `id`: UUID (Primary Key, auto-generated)
+  - `user_id`: UUID (Optional foreign key to `auth.users`)
+  - `reel_url`: TEXT (Source URL)
+  - `prompt`: TEXT (Optional custom focus prompt)
+  - `status`: `summary_status` (Default: `'pending'`)
+  - `summary_data`: JSONB (Structured summary payload)
+  - `error_message`: TEXT (Captured failures)
+  - `created_at` / `updated_at`: Timestamps with automatic trigger
+- **Row Level Security (RLS)**:
+  - Public read access for summaries
+  - Insert access for authenticated & anonymous users
+  - Service role full access for background worker updates
 
-### Installation
+---
 
-1. Clone the repository and navigate into the project directory:
-   ```bash
-   git clone <repository-url>
-   cd digestible
-   ```
+## API Reference
 
-2. Install dependencies for workspaces:
-   ```bash
-   npm install
-   ```
-
-3. Populate environment variables in `server/.env` and `client/.env`.
-
-### Running Applications
-
-Run server in development mode with hot reloading:
-```bash
-npm run dev:server
+### Health Check
+```http
+GET /health
+```
+Response:
+```json
+{
+  "status": "ok",
+  "service": "digestible-server",
+  "timestamp": "2026-09-11T10:00:00.000Z"
+}
 ```
 
-Run client frontend:
-```bash
-npm run dev:client
+### Submit Reel for Processing
+```http
+POST /api/tasks
+Content-Type: application/json
+```
+Request Body:
+```json
+{
+  "reelUrl": "https://www.instagram.com/reel/C8SalmonDemo/",
+  "prompt": "Extract the exact cooking temperature and ingredients"
+}
+```
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "taskId": "7e3b9c02-...",
+    "status": "pending",
+    "message": "Task created and enqueued for AI summarization"
+  }
+}
 ```
 
-## Workspace Scripts
+### Get Task Status & Results
+```http
+GET /api/tasks/:id
+```
+Response:
+```json
+{
+  "success": true,
+  "data": {
+    "id": "7e3b9c02-...",
+    "reel_url": "https://www.instagram.com/reel/C8SalmonDemo/",
+    "status": "completed",
+    "summary_data": {
+      "title": "High-Protein Garlic Butter Salmon in 20 Minutes",
+      "summary": "A fast, nutrient-dense recipe for pan-seared salmon...",
+      "keyTakeaways": ["Pat salmon dry...", "Sear skin-side down for 4 min..."],
+      "viralHook": {
+        "hookText": "\"Stop overcooking your salmon! Do this 1 trick instead...\"",
+        "hookEffectivenessScore": 94
+      },
+      "stepByStepInstructions": [
+        { "stepNumber": 1, "title": "Dry Fillet", "detail": "Remove surface moisture..." }
+      ],
+      "estimatedReadTime": "25 seconds",
+      "category": "Recipe & Nutrition"
+    }
+  }
+}
+```
 
-The root `package.json` provides unified workspace commands:
+---
 
-- `npm run dev:server`: Starts Express server via `ts-node-dev`.
-- `npm run dev:client`: Launches Vite development server for client.
-- `npm run build:server`: Compiles backend TypeScript to `dist/`.
-- `npm run build:client`: Compiles production client bundle.
-- `npm run check-types`: Runs type checking across all workspaces that provide a typecheck script.
+## Client Features
 
-## API and Queue Architecture
+- **Interactive Reel Summarizer Dashboard**: Paste any video reel link, add an optional custom focus prompt, and inspect instant structured output across multiple view tabs (Summary, Key Takeaways, Transcript, Checklist).
+- **Hero & Brand Marquee**: Smooth infinite marquee showcasing Instagram Reels, YouTube Shorts, and TikTok platform support.
+- **Before & After Visual Funnel (`HubDiagram`)**: Visual comparison showing how scattered, chaotic saved videos transform into clean, organized knowledge cards.
+- **Bento Feature Grid**: Dark-mode bento showcasing video workspace organization, viral hook psychology scores, and step-by-step tutorial checklists.
+- **Full-Screen Responsive Drawer**: Mobile-friendly navigation overlay with smooth blur transitions.
 
-### REST Endpoints
-- `POST /api/tasks`: Accepts `reel_url` and optional `prompt`. Validates inputs against schemas, inserts row into Supabase, and adds job to Redis BullMQ.
-- `GET /api/tasks/:id`: Fetches the current processing status and summary data for a given task ID.
-- `GET /api/tasks`: Fetches historical summaries with optional pagination and filtering.
-
-### Queues and Workers
-- `taskQueue`: BullMQ queue that coordinates heavy audio and video extraction.
-- Workers download media buffers, pass audio chunks to Gemini models using structured JSON schemas, and write the final summary payload into the Supabase database.
-- Real-time updates trigger notifications to active web subscribers.
-
-## Web Client
-
-- Web Client: Modern, responsive web platform featuring an interactive landing page, real-time workflow diagrams, interactive component previews, and a video summarizer dashboard optimized for desktop, tablet, and mobile browsers.
+---
 
 ## License
 
