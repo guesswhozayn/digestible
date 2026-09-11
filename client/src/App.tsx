@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { HubDiagram } from './components/HubDiagram';
 import { BentoGrid } from './components/BentoGrid';
-import { MobileAppShowcase } from './components/MobileAppShowcase';
 import { HowItWorks } from './components/HowItWorks';
 import { Pricing } from './components/Pricing';
 import { FAQ } from './components/FAQ';
@@ -36,7 +35,6 @@ export const App: React.FC = () => {
           <Hero onNavigateToSummarizer={goToSummarizer} />
           <HubDiagram />
           <BentoGrid />
-          <MobileAppShowcase />
           <HowItWorks />
           <Pricing onNavigateToSummarizer={goToSummarizer} />
           <FAQ />

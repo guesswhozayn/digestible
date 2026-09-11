@@ -1,4 +1,4 @@
-import { ReelSummaryResult } from '@digestible/shared';
+import { ReelSummaryResult } from '../shared';
 import { OpenRouterService } from './openrouter';
 
 export class AIService {

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { createTaskSchema, taskIdParamSchema } from '@digestible/shared';
+import { createTaskSchema, taskIdParamSchema } from '../shared';
 import { supabaseAdmin } from '../config/supabase';
 import { enqueueSummarizationJob } from '../queues/summarization.queue';
 

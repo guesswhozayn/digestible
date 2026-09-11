@@ -46,7 +46,7 @@ Thumbs.db
 *.tsbuildinfo
 
 # yt-dlp binary
-apps/server/yt-dlp
+server/yt-dlp
 
 # Supabase local
 .supabase/

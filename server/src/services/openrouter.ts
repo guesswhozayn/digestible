@@ -1,4 +1,4 @@
-import { ReelSummaryResult } from '@digestible/shared';
+import { ReelSummaryResult } from '../shared';
 import { config } from '../config/env';
 import { VideoExtractorService } from './videoExtractor';
 

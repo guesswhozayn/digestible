@@ -3,7 +3,7 @@ import { promisify } from 'util';
 import axios from 'axios';
 import * as path from 'path';
 import * as fs from 'fs';
-import { VideoMetadata } from '@digestible/shared';
+import { VideoMetadata } from '../shared';
 
 import { AudioExtractorService, ExtractedAudioData } from './audioExtractor';
 

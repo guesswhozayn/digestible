@@ -68,7 +68,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
               <button onClick={onNavigateToSummarizer} style={footerButtonStyle}>Reel Summarizer</button>
               <a href="#diagram" style={footerLinkStyle}>Smart updates</a>
               <a href="#features" style={footerLinkStyle}>Knowledge hub</a>
-              <a href="#mobile-app" style={footerLinkStyle}>Mobile access</a>
+              <a href="#how-it-works" style={footerLinkStyle}>Workflow</a>
             </div>
 
             {/* Nav Column 2 */}
