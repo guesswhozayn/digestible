@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AbstractDLogo } from './Logo';
-import { ArrowLeft, ArrowRight, Copy, Check, RefreshCw, Sparkles, Plus, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Copy, Check, RefreshCw, Sparkles, Plus, ExternalLink, ListOrdered, MessageSquare, Flame, CheckSquare, Clock } from 'lucide-react';
 import { ReelSummaryResult } from '../types/digest';
 
 interface SummarizerPageProps {
@@ -65,7 +65,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
   const [customPrompt, setCustomPrompt] = useState('');
   const [status, setStatus] = useState<'idle' | 'extracting' | 'completed'>('idle');
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<'summary' | 'takeaways' | 'transcript' | 'checklist'>('summary');
   const [activeResult, setActiveResult] = useState<ReelSummaryResult | null>(null);
   const result = activeResult || buildDynamicResult(url || 'https://www.instagram.com/reel/C8SalmonDemo/', customPrompt);
 
@@ -167,6 +166,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
       <button
         onClick={onBackToLanding}
+        className="summarizer-back-btn"
         aria-label="Back to home"
         title="Back to home"
         style={{
@@ -204,7 +204,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
       <main
         className="container"
         style={{
-          paddingTop: status === 'completed' ? '90px' : '40px',
+          paddingTop: status === 'completed' ? '80px' : '40px',
           maxWidth: '900px',
           width: '100%',
           margin: '0 auto',
@@ -214,24 +214,25 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
         {(status === 'idle' || status === 'extracting') && (
           <div>
 
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <h1
                 className="font-serif"
                 style={{
-                  fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
+                  fontSize: 'clamp(2rem, 5vw, 3.8rem)',
                   fontWeight: 800,
-                  lineHeight: 1.1,
-                  margin: '0 0 16px 0',
+                  lineHeight: 1.15,
+                  margin: '0 0 14px 0',
                 }}
               >
                 Summarize any reel or video note
               </h1>
-              <p style={{ fontSize: '16px', color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto' }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto', padding: '0 8px' }}>
                 Paste an Instagram Reel, TikTok, or YouTube Shorts link to extract clean key takeaways, recipe steps, and spoken transcripts in seconds.
               </p>
             </div>
 
             <div
+              className="summarizer-card"
               style={{
                 background: '#FFFFFF',
                 borderRadius: '24px',
@@ -242,7 +243,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
               }}
             >
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <div className="summarizer-input-row" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                   <input
                     type="url"
                     value={url}
@@ -265,7 +266,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
                   <button
                     type="submit"
-                    className="btn-expand-hover"
+                    className="btn-expand-hover summarizer-submit-btn"
                     disabled={status === 'extracting'}
                     style={{ opacity: status === 'extracting' ? 0.75 : 1 }}
                   >
@@ -295,6 +296,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     fontSize: '13.5px',
                     color: '#475569',
                     outline: 'none',
+                    width: '100%',
                   }}
                 />
               </form>
@@ -304,26 +306,8 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
         {status === 'completed' && (
           <div>
-
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
-              <button
-                onClick={handleReset}
-                className="btn-cliento-light"
-              >
-                <Plus size={16} />
-                <span>Digest Another Reel</span>
-              </button>
-
-              <button
-                onClick={handleCopy}
-                className="btn-cliento-light"
-              >
-                {copied ? <Check size={16} color="#10B981" /> : <Copy size={16} />}
-                <span>{copied ? 'Copied to Clipboard!' : 'Copy Summary'}</span>
-              </button>
-            </div>
-
             <div
+              className="summarizer-card"
               style={{
                 background: '#FFFFFF',
                 borderRadius: '24px',
@@ -335,27 +319,101 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
             >
 
               <div style={{ marginBottom: '24px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                  <span
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 700,
-                      color: '#FF5B22',
-                      background: 'rgba(255,91,34,0.08)',
-                      padding: '4px 10px',
-                      borderRadius: '999px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.6px',
-                    }}
-                  >
-                    {result.category}
-                  </span>
-                  <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
-                    • Read time: {result.estimatedReadTime}
-                  </span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <span
+                      style={{
+                        fontSize: '11.5px',
+                        fontWeight: 700,
+                        color: '#FF5B22',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.8px',
+                      }}
+                    >
+                      {result.category}
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500 }}>
+                      • {result.estimatedReadTime} read
+                    </span>
+                  </div>
+
+                  {/* Header Minimalist Action Icons */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button
+                      onClick={handleCopy}
+                      title={copied ? 'Copied to clipboard' : 'Copy summary'}
+                      aria-label="Copy summary"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        height: '34px',
+                        padding: copied ? '0 12px' : '0 10px',
+                        borderRadius: '999px',
+                        background: copied ? '#ECFDF5' : '#F8FAFC',
+                        border: copied ? '1px solid #A7F3D0' : '1px solid #E2E8F0',
+                        color: copied ? '#059669' : '#475569',
+                        fontSize: '12.5px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!copied) {
+                          e.currentTarget.style.background = '#F1F5F9';
+                          e.currentTarget.style.color = '#0F172A';
+                          e.currentTarget.style.borderColor = '#CBD5E1';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!copied) {
+                          e.currentTarget.style.background = '#F8FAFC';
+                          e.currentTarget.style.color = '#475569';
+                          e.currentTarget.style.borderColor = '#E2E8F0';
+                        }
+                      }}
+                    >
+                      {copied ? <Check size={15} strokeWidth={2.4} color="#059669" /> : <Copy size={15} strokeWidth={2} />}
+                      <span>{copied ? 'Copied' : 'Copy'}</span>
+                    </button>
+
+                    <button
+                      onClick={handleReset}
+                      title="Digest another reel"
+                      aria-label="Digest another reel"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        height: '34px',
+                        padding: '0 12px',
+                        borderRadius: '999px',
+                        background: '#0F172A',
+                        border: '1px solid #0F172A',
+                        color: '#FFFFFF',
+                        fontSize: '12.5px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#FF5B22';
+                        e.currentTarget.style.borderColor = '#FF5B22';
+                        e.currentTarget.style.transform = 'scale(1.02)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#0F172A';
+                        e.currentTarget.style.borderColor = '#0F172A';
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                    >
+                      <Plus size={15} strokeWidth={2.2} />
+                      <span>New</span>
+                    </button>
+                  </div>
                 </div>
 
-                <h2 className="font-serif" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 800, margin: 0, color: '#0F172A' }}>
+                <h2 className="font-serif" style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.4rem)', fontWeight: 800, margin: 0, color: '#0F172A', wordBreak: 'break-word' }}>
                   {result.title}
                 </h2>
 
@@ -368,189 +426,178 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '4px',
-                      fontSize: '12.5px',
+                      fontSize: '12px',
                       color: '#64748B',
                       marginTop: '8px',
                       textDecoration: 'none',
+                      maxWidth: '100%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    <span>{url}</span>
-                    <ExternalLink size={12} />
+                    <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{url}</span>
+                    <ExternalLink size={12} style={{ flexShrink: 0 }} />
                   </a>
                 )}
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '8px',
-                  borderBottom: '1px solid var(--border-light)',
-                  paddingBottom: '12px',
-                  marginBottom: '24px',
-                  flexWrap: 'wrap',
-                }}
-              >
-                <button
-                  onClick={() => setActiveTab('summary')}
-                  style={{
-                    ...tabStyle,
-                    background: activeTab === 'summary' ? '#0F172A' : '#F1F5F9',
-                    color: activeTab === 'summary' ? '#FFF' : '#475569',
-                  }}
-                >
-                  Overview
-                </button>
-                <button
-                  onClick={() => setActiveTab('takeaways')}
-                  style={{
-                    ...tabStyle,
-                    background: activeTab === 'takeaways' ? '#0F172A' : '#F1F5F9',
-                    color: activeTab === 'takeaways' ? '#FFF' : '#475569',
-                  }}
-                >
-                  Key Takeaways ({result.keyTakeaways.length})
-                </button>
-                <button
-                  onClick={() => setActiveTab('checklist')}
-                  style={{
-                    ...tabStyle,
-                    background: activeTab === 'checklist' ? '#0F172A' : '#F1F5F9',
-                    color: activeTab === 'checklist' ? '#FFF' : '#475569',
-                  }}
-                >
-                  Recipe Steps ({result.stepByStepInstructions?.length || 0})
-                </button>
-                <button
-                  onClick={() => setActiveTab('transcript')}
-                  style={{
-                    ...tabStyle,
-                    background: activeTab === 'transcript' ? '#0F172A' : '#F1F5F9',
-                    color: activeTab === 'transcript' ? '#FFF' : '#475569',
-                  }}
-                >
-                  Spoken Transcript
-                </button>
-              </div>
-
-              {activeTab === 'summary' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <p style={{ fontSize: '15.5px', lineHeight: 1.65, color: '#334155', margin: 0 }}>
+              {/* Unified Content Section */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+                
+                {/* 1. Summary Overview */}
+                <div>
+                  <p style={{ fontSize: '15.5px', lineHeight: 1.7, color: '#334155', margin: 0 }}>
                     {result.summary}
                   </p>
+                </div>
 
-                  {result.viralHook && (
-                    <div
-                      style={{
-                        background: 'linear-gradient(135deg, #FFF7F5 0%, #FFF0EB 100%)',
-                        borderRadius: '16px',
-                        padding: '18px 22px',
-                        border: '1px solid rgba(255, 91, 34, 0.15)',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                {/* 2. Viral Hook Box (if present) */}
+                {result.viralHook && (
+                  <div
+                    style={{
+                      background: 'linear-gradient(135deg, #FFF7F5 0%, #FFF0EB 100%)',
+                      borderRadius: '16px',
+                      padding: '18px 22px',
+                      border: '1px solid rgba(255, 91, 34, 0.15)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Flame size={16} color="#FF5B22" />
                         <span style={{ fontSize: '12px', fontWeight: 800, color: '#FF5B22', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           Viral Hook Score
                         </span>
-                        <span style={{ fontSize: '13px', fontWeight: 800, color: '#0F172A', background: '#FFFFFF', padding: '2px 10px', borderRadius: '999px', border: '1px solid #FFD6C9' }}>
-                          {result.viralHook.hookEffectivenessScore} / 100
-                        </span>
                       </div>
-                      <div style={{ fontSize: '14px', fontStyle: 'italic', color: '#1E293B', fontWeight: 600 }}>
-                        {result.viralHook.hookText}
-                      </div>
-                    </div>
-                  )}
-
-                  <div style={{ background: '#F8FAFC', borderRadius: '16px', padding: '20px', border: '1px solid #E2E8F0' }}>
-                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#0F172A', marginBottom: '10px' }}>Core Highlights</div>
-                    <ul style={{ paddingLeft: '20px', margin: 0, color: '#475569', fontSize: '14px', lineHeight: 1.7 }}>
-                      {result.keyTakeaways.map((t: string, idx: number) => (
-                        <li key={idx}>{t}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'takeaways' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {result.keyTakeaways.map((t: string, idx: number) => (
-                    <div
-                      key={idx}
-                      style={{
-                        background: '#F8FAFC',
-                        padding: '16px 20px',
-                        borderRadius: '16px',
-                        border: '1px solid #E2E8F0',
-                        fontSize: '14.5px',
-                        fontWeight: 600,
-                        color: '#0F172A',
-                        display: 'flex',
-                        gap: '12px',
-                        alignItems: 'flex-start',
-                      }}
-                    >
-                      <span
-                        style={{
-                          width: '24px',
-                          height: '24px',
-                          borderRadius: '50%',
-                          background: '#0F172A',
-                          color: '#FFFFFF',
-                          fontSize: '12px',
-                          fontWeight: 700,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                          marginTop: '2px',
-                        }}
-                      >
-                        {idx + 1}
+                      <span style={{ fontSize: '13.5px', fontWeight: 800, color: '#0F172A' }}>
+                        {result.viralHook.hookEffectivenessScore} / 100
                       </span>
-                      <span>{t}</span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <div style={{ fontSize: '14.5px', fontStyle: 'italic', color: '#1E293B', fontWeight: 600 }}>
+                      {result.viralHook.hookText}
+                    </div>
+                    {result.viralHook.whyItWorks && (
+                      <div style={{ fontSize: '13px', color: '#64748B', marginTop: '6px' }}>
+                        {result.viralHook.whyItWorks}
+                      </div>
+                    )}
+                  </div>
+                )}
 
-              {activeTab === 'checklist' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {(result.stepByStepInstructions || []).map((step) => (
+                {/* 3. Key Takeaways */}
+                {result.keyTakeaways && result.keyTakeaways.length > 0 && (
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                      <CheckSquare size={18} color="#FF5B22" />
+                      <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', margin: 0 }}>
+                        Key Takeaways
+                      </h3>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {result.keyTakeaways.map((takeaway: string, idx: number) => (
+                        <div
+                          key={idx}
+                          style={{
+                            background: '#F8FAFC',
+                            padding: '14px 18px',
+                            borderRadius: '14px',
+                            border: '1px solid #E2E8F0',
+                            fontSize: '14px',
+                            color: '#1E293B',
+                            display: 'flex',
+                            gap: '12px',
+                            alignItems: 'flex-start',
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: '22px',
+                              height: '22px',
+                              borderRadius: '50%',
+                              background: '#0F172A',
+                              color: '#FFFFFF',
+                              fontSize: '11px',
+                              fontWeight: 700,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              flexShrink: 0,
+                              marginTop: '1px',
+                            }}
+                          >
+                            {idx + 1}
+                          </span>
+                          <span>{takeaway}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. Recipe / Action Steps (if available) */}
+                {result.stepByStepInstructions && result.stepByStepInstructions.length > 0 && (
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                      <ListOrdered size={18} color="#FF5B22" />
+                      <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', margin: 0 }}>
+                        Step-by-Step Instructions
+                      </h3>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {result.stepByStepInstructions.map((step) => (
+                        <div
+                          key={step.stepNumber}
+                          style={{
+                            background: '#F8FAFC',
+                            padding: '16px 20px',
+                            borderRadius: '14px',
+                            border: '1px solid #E2E8F0',
+                          }}
+                        >
+                          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0F172A', marginBottom: '4px' }}>
+                            Step {step.stepNumber}: {step.title}
+                          </div>
+                          <div style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5 }}>
+                            {step.detail}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* 5. Key Spoken Transcript */}
+                {result.audioAnalysis?.fullTranscript && (
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+                      <MessageSquare size={18} color="#FF5B22" />
+                      <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', margin: 0 }}>
+                        Spoken Transcript
+                      </h3>
+                      {result.audioAnalysis.speakerTone && (
+                        <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 500, marginLeft: 'auto' }}>
+                          Tone: {result.audioAnalysis.speakerTone}
+                        </span>
+                      )}
+                    </div>
                     <div
-                      key={step.stepNumber}
                       style={{
                         background: '#F8FAFC',
-                        padding: '18px 22px',
-                        borderRadius: '16px',
+                        padding: '20px',
+                        borderRadius: '14px',
                         border: '1px solid #E2E8F0',
+                        fontSize: '14px',
+                        lineHeight: 1.7,
+                        color: '#334155',
                       }}
                     >
-                      <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#0F172A', marginBottom: '6px' }}>
-                        Step {step.stepNumber}: {step.title}
-                      </div>
-                      <div style={{ fontSize: '14px', color: '#475569', lineHeight: 1.5 }}>{step.detail}</div>
+                      {result.audioAnalysis.fullTranscript}
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                )}
 
-              {activeTab === 'transcript' && (
-                <div
-                  style={{
-                    background: '#F8FAFC',
-                    padding: '24px',
-                    borderRadius: '16px',
-                    border: '1px solid #E2E8F0',
-                    fontSize: '14.5px',
-                    lineHeight: 1.75,
-                    color: '#334155',
-                    fontFamily: 'sans-serif',
-                  }}
-                >
-                  {result.audioAnalysis?.fullTranscript || 'No spoken transcript available.'}
-                </div>
-              )}
+              </div>
             </div>
           </div>
         )}
@@ -584,14 +631,4 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
       </main>
     </div>
   );
-};
-
-const tabStyle: React.CSSProperties = {
-  border: 'none',
-  padding: '8px 16px',
-  borderRadius: '999px',
-  fontSize: '13px',
-  fontWeight: 600,
-  cursor: 'pointer',
-  transition: 'all 0.2s ease',
 };

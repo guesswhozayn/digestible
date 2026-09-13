@@ -14,7 +14,7 @@ export const BentoGrid: React.FC = () => {
       <div className="container" style={{ textAlign: 'center' }}>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-          <span style={{ background: 'rgba(255, 255, 255, 0.08)', color: '#CBD5E1', padding: '6px 16px', borderRadius: '999px', fontSize: '13px', fontWeight: 600 }}>
+          <span style={{ fontSize: '11.5px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--accent-orange)' }}>
             Built for clarity
           </span>
         </div>

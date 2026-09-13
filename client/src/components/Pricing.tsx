@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
-import { Check, ArrowUpRight, ArrowRight } from 'lucide-react';
+import React from 'react';
+import { Check, ArrowRight } from 'lucide-react';
 
 interface PricingProps {
   onNavigateToSummarizer: () => void;
 }
 
 export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
-  const [annual, setAnnual] = useState(false);
-
   return (
     <section id="pricing" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
@@ -32,56 +30,9 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             Choose the plan built for your workflow
           </h2>
 
-          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', maxWidth: '540px', margin: '0 auto 32px auto' }}>
-            Get started for free or upgrade for unlimited video reel summaries.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', maxWidth: '540px', margin: '0 auto' }}>
+            Get started for free or upgrade for unlimited video reel summaries. Simple monthly billing, cancel anytime.
           </p>
-
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '12px',
-              background: '#FFFFFF',
-              padding: '6px 16px',
-              borderRadius: 'var(--radius-pill)',
-              border: '1px solid var(--border-light)',
-              boxShadow: 'var(--shadow-subtle)',
-            }}
-          >
-            <span style={{ fontSize: '14px', fontWeight: annual ? 500 : 700, color: annual ? 'var(--text-muted)' : 'var(--text-primary)' }}>
-              Monthly
-            </span>
-
-            <button
-              onClick={() => setAnnual(!annual)}
-              style={{
-                width: '44px',
-                height: '24px',
-                borderRadius: '12px',
-                background: 'linear-gradient(135deg, #FF6B35 0%, #FF5B22 100%)',
-                border: 'none',
-                cursor: 'pointer',
-                position: 'relative',
-                padding: '2px',
-              }}
-            >
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  background: '#FFFFFF',
-                  transform: annual ? 'translateX(20px)' : 'translateX(0)',
-                  transition: 'transform 0.2s ease',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                }}
-              />
-            </button>
-
-            <span style={{ fontSize: '14px', fontWeight: annual ? 700 : 500, color: annual ? 'var(--text-primary)' : 'var(--text-muted)' }}>
-              Annual <span style={{ color: 'var(--accent-orange)', fontSize: '12px', fontWeight: 700 }}>(Save 20%)</span>
-            </span>
-          </div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '32px', maxWidth: '1120px', margin: '0 auto' }}>
@@ -154,7 +105,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>For active researchers, creators & marketers.</p>
 
             <div className="font-serif" style={{ fontSize: '42px', fontWeight: 800, marginBottom: '24px' }}>
-              ${annual ? '7.50' : '9'}{' '}
+              $9{' '}
               <span style={{ fontSize: '14px', fontFamily: 'var(--font-sans)', fontWeight: 500, color: 'var(--text-muted)' }}>/ month</span>
             </div>
 
@@ -192,7 +143,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '24px' }}>For content teams & multi-user agencies.</p>
 
             <div className="font-serif" style={{ fontSize: '42px', fontWeight: 800, marginBottom: '24px' }}>
-              ${annual ? '24' : '29'}{' '}
+              $29{' '}
               <span style={{ fontSize: '14px', fontFamily: 'var(--font-sans)', fontWeight: 500, color: 'var(--text-muted)' }}>/ month</span>
             </div>
 

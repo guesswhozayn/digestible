@@ -2,8 +2,8 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const integrationBrands = [
-  { name: 'Instagram Reels', src: '/reels.svg', typographyText: 'Reels', font: '"Montserrat", sans-serif' },
-  { name: 'YouTube Shorts', src: '/shorts.svg', typographyText: 'Shorts', font: '"Oswald", sans-serif' },
+  { name: 'Instagram Reels', src: '/reels.svg', typographyText: 'Reels' },
+  { name: 'YouTube Shorts', src: '/shorts.svg', typographyText: 'Shorts' },
   { name: 'TikTok', src: '/tiktok.svg' },
 ];
 
@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
             <div key={i} className="integration-brand-item" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <img src={brand.src} alt={brand.name} style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
               {brand.typographyText && (
-                <span style={{ fontFamily: brand.font || 'inherit', fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: '22px', fontWeight: 800, letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
                   {brand.typographyText}
                 </span>
               )}

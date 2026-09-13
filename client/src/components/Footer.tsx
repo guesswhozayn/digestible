@@ -1,11 +1,13 @@
 import React from 'react';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { AbstractDLogo } from './Logo';
 
 interface FooterProps {
   onNavigateToSummarizer: () => void;
+  onNavigateToLegal?: (type: 'terms' | 'privacy' | 'security') => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer, onNavigateToLegal }) => {
   return (
     <footer
       style={{
@@ -18,32 +20,38 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
     >
       <div className="container">
 
+        {/* Top Section: Brand/CTA Left + Semantic Nav Groups Right */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
             gap: '60px',
-            marginBottom: '80px',
+            marginBottom: '72px',
           }}
         >
 
-          <div>
+          {/* Left Column: Brand, Mission & Action */}
+          <div style={{ maxWidth: '440px' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <AbstractDLogo size={32} showText={true} />
+            </div>
+
             <h2
               className="font-serif"
               style={{
-                fontSize: 'clamp(2.2rem, 4vw, 3.4rem)',
+                fontSize: 'clamp(1.9rem, 3.2vw, 2.6rem)',
                 fontWeight: 800,
                 color: 'var(--text-primary)',
-                lineHeight: 1.1,
-                letterSpacing: '-1px',
-                marginBottom: '16px',
+                lineHeight: 1.15,
+                letterSpacing: '-0.5px',
+                marginBottom: '14px',
               }}
             >
               One place for reels, guides, and saved notes without chaos
             </h2>
 
-            <p style={{ fontSize: '15px', color: 'var(--text-secondary)', marginBottom: '32px' }}>
-              Start digesting video reels instantly with our AI summarizer
+            <p style={{ fontSize: '14.5px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '28px' }}>
+              Turn 60-second vertical reels into 15-second actionable takeaways, recipe cards, and searchable transcripts.
             </p>
 
             <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
@@ -55,40 +63,43 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             </button>
           </div>
 
+          {/* Right Column: Streamlined Categorized Navigation Grid */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 130px), 1fr))',
-              gap: '32px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
+              gap: '40px',
+              alignContent: 'start',
             }}
           >
 
+            {/* Column 1: Product */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <button onClick={onNavigateToSummarizer} style={footerButtonStyle}>Reel Summarizer</button>
-              <a href="#diagram" style={footerLinkStyle}>Smart updates</a>
-              <a href="#features" style={footerLinkStyle}>Knowledge hub</a>
-              <a href="#how-it-works" style={footerLinkStyle}>Workflow</a>
+              <div className="footer-nav-title">Product</div>
+              <button onClick={onNavigateToSummarizer} className="footer-nav-link">Reel Summarizer</button>
+              <a href="#features" className="footer-nav-link">Features</a>
+              <a href="#how-it-works" className="footer-nav-link">How It Works</a>
+              <a href="#diagram" className="footer-nav-link">Knowledge Hub</a>
             </div>
 
+            {/* Column 2: Resources & Pricing */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <a href="#features" style={footerLinkStyle}>Integrations</a>
-              <a href="#pricing" style={footerLinkStyle}>Pricing</a>
-              <a href="#how-it-works" style={footerLinkStyle}>FAQ</a>
-              <button onClick={onNavigateToSummarizer} style={footerButtonStyle}>Try Free Demo</button>
+              <div className="footer-nav-title">Resources</div>
+              <a href="#pricing" className="footer-nav-link">Pricing</a>
+              <a href="#faq" className="footer-nav-link">FAQ</a>
+              <button onClick={() => onNavigateToLegal?.('terms')} className="footer-nav-link">Terms of Service</button>
+              <button onClick={() => onNavigateToLegal?.('privacy')} className="footer-nav-link">Privacy Policy</button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              <a href="#" style={footerLinkStyle}>Blog</a>
-              <a href="#" style={footerLinkStyle}>Careers</a>
-            </div>
           </div>
         </div>
 
+        {/* Centerpiece Wordmark Banner */}
         <div
           style={{
             position: 'relative',
             borderRadius: '24px',
-            height: '260px',
+            height: '240px',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
@@ -110,7 +121,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
           <h1
             className="font-serif"
             style={{
-              fontSize: 'clamp(5rem, 16vw, 15rem)',
+              fontSize: 'clamp(4.5rem, 15vw, 14rem)',
               fontWeight: 800,
               color: '#FFFFFF',
               lineHeight: 1,
@@ -126,6 +137,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
           </h1>
         </div>
 
+        {/* Bottom Legal & Copyright Bar */}
         <div
           style={{
             display: 'flex',
@@ -135,37 +147,40 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             color: 'var(--text-muted)',
             flexWrap: 'wrap',
             gap: '16px',
+            paddingTop: '8px',
           }}
         >
-          <div style={{ display: 'flex', gap: '24px' }}>
-            <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+            <button
+              onClick={() => onNavigateToLegal?.('terms')}
+              className="footer-legal-link"
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            >
               Terms of service
-            </a>
-            <a href="#" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>
+            </button>
+            <span style={{ color: '#E2E8F0' }}>•</span>
+            <button
+              onClick={() => onNavigateToLegal?.('privacy')}
+              className="footer-legal-link"
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            >
               Privacy policy
-            </a>
+            </button>
+            <span style={{ color: '#E2E8F0' }}>•</span>
+            <button
+              onClick={() => onNavigateToLegal?.('security')}
+              className="footer-legal-link"
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+            >
+              Security
+            </button>
           </div>
 
-          <div>© {new Date().getFullYear()} Digestible Inc. All rights reserved.</div>
+          <div style={{ fontFamily: 'var(--font-sans)', fontWeight: 300, fontSize: '13px', color: '#94A3B8' }}>
+            © {new Date().getFullYear()} Digestible Inc. All rights reserved.
+          </div>
         </div>
       </div>
     </footer>
   );
-};
-
-const footerLinkStyle: React.CSSProperties = {
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-  fontSize: '15px',
-  fontWeight: 600,
-  transition: 'color 0.2s ease',
-};
-
-const footerButtonStyle: React.CSSProperties = {
-  ...footerLinkStyle,
-  background: 'none',
-  border: 'none',
-  padding: 0,
-  cursor: 'pointer',
-  textAlign: 'left',
 };
