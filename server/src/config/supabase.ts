@@ -11,8 +11,3 @@ export const supabaseAdmin: SupabaseClient = createClient(
     },
   }
 );
-
-export const supabaseClient: SupabaseClient = createClient(
-  config.SUPABASE_URL,
-  config.SUPABASE_ANON_KEY
-);

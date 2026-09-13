@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { AbstractDLogo } from './Logo';
 import { ArrowLeft, Copy, Check, Zap, RefreshCw, Sparkles, Plus, ExternalLink } from 'lucide-react';
+import { ReelSummaryResult } from '../types/digest';
 
 interface SummarizerPageProps {
   onBackToLanding: () => void;
 }
 
-const buildDynamicResult = (reelUrl: string, prompt?: string) => {
+const buildDynamicResult = (reelUrl: string, prompt?: string): ReelSummaryResult => {
   let title = 'Short Form Video Note';
   try {
     const parsed = new URL(reelUrl);
@@ -22,6 +23,12 @@ const buildDynamicResult = (reelUrl: string, prompt?: string) => {
     summary: `Extracted video note and spoken insights from ${reelUrl}.${prompt ? ` Custom focus: "${prompt}".` : ''}`,
     category: 'Video Digest',
     estimatedReadTime: '20 seconds',
+    sentiment: 'positive',
+    targetAudience: 'General Audience',
+    actionableInsights: [
+      `Review key concepts from ${reelUrl}`,
+      'Apply structured checklist steps',
+    ],
     viralHook: {
       hookText: `"Opening hook from ${title}"`,
       hookEffectivenessScore: 92,
@@ -32,11 +39,24 @@ const buildDynamicResult = (reelUrl: string, prompt?: string) => {
       prompt ? `Custom focus applied: "${prompt}"` : 'Extracted key takeaways, OCR highlights, and spoken transcripts.',
       'Core insights structured for quick reading.',
     ],
+    keyQuotes: [`"Key insight highlighted from video."`],
+    timestampedMoments: [
+      { timestamp: '00:01', seconds: 1, label: 'Opening Hook', summary: 'Intro and setup' },
+      { timestamp: '00:15', seconds: 15, label: 'Core Content', summary: 'Main walkthrough' },
+    ],
     stepByStepInstructions: [
       { stepNumber: 1, title: 'Process Stream', detail: `Parsed video stream from ${reelUrl}` },
       { stepNumber: 2, title: 'Extract Insights', detail: prompt ? `Targeted focus: "${prompt}"` : 'Extracted key action items' },
     ],
-    fullTranscript: `Spoken transcript and visual notes processed for ${reelUrl}.`,
+    onScreenTextHighlights: ['Highlighted on-screen text and titles'],
+    audioAnalysis: {
+      fullTranscript: `Spoken transcript and visual notes processed for ${reelUrl}.`,
+      speakerTone: 'Informative & Direct',
+      backgroundMusic: 'Ambient background track',
+      speechPace: 'moderate',
+      wordsPerMinute: 140,
+      clarityScore: 92,
+    },
   };
 };
 
@@ -46,7 +66,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
   const [status, setStatus] = useState<'idle' | 'extracting' | 'completed'>('idle');
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<'summary' | 'takeaways' | 'transcript' | 'checklist'>('summary');
-  const [activeResult, setActiveResult] = useState<any>(null);
+  const [activeResult, setActiveResult] = useState<ReelSummaryResult | null>(null);
   const result = activeResult || buildDynamicResult(url || 'https://www.instagram.com/reel/C8SalmonDemo/', customPrompt);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -444,7 +464,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     color: activeTab === 'checklist' ? '#FFF' : '#475569',
                   }}
                 >
-                  Recipe Steps ({result.stepByStepInstructions.length})
+                  Recipe Steps ({result.stepByStepInstructions?.length || 0})
                 </button>
                 <button
                   onClick={() => setActiveTab('transcript')}
@@ -542,7 +562,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
               {activeTab === 'checklist' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {result.stepByStepInstructions.map((step: any) => (
+                  {(result.stepByStepInstructions || []).map((step) => (
                     <div
                       key={step.stepNumber}
                       style={{
@@ -574,7 +594,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     fontFamily: 'sans-serif',
                   }}
                 >
-                  {result.fullTranscript}
+                  {result.audioAnalysis?.fullTranscript || 'No spoken transcript available.'}
                 </div>
               )}
             </div>

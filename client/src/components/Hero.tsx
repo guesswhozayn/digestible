@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const integrationBrands = [
   { name: 'Instagram Reels', src: '/reels.svg', typographyText: 'Reels', font: '"Montserrat", sans-serif' },
@@ -80,20 +80,4 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
       </div>
     </section>
   );
-};
-
-const featureTagStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  fontSize: '14px',
-  fontWeight: 600,
-  color: 'var(--text-primary)',
-};
-
-const orangeDotStyle: React.CSSProperties = {
-  width: '8px',
-  height: '8px',
-  borderRadius: '50%',
-  background: '#FF5B22',
 };
