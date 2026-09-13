@@ -47,11 +47,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer, onNaviga
                 marginBottom: '14px',
               }}
             >
-              One place for reels, guides, and saved notes without chaos
+              One place for videos, guides, and saved notes without chaos
             </h2>
 
             <p style={{ fontSize: '14.5px', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '28px' }}>
-              Turn 60-second vertical reels into 15-second actionable takeaways, recipe cards, and searchable transcripts.
+              Turn 60-second vertical videos into 15-second actionable takeaways, recipe cards, and searchable transcripts.
             </p>
 
             <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
@@ -76,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer, onNaviga
             {/* Column 1: Product */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div className="footer-nav-title">Product</div>
-              <button onClick={onNavigateToSummarizer} className="footer-nav-link">Reel Summarizer</button>
+              <button onClick={onNavigateToSummarizer} className="footer-nav-link">Video Digest</button>
               <a href="#features" className="footer-nav-link">Features</a>
               <a href="#how-it-works" className="footer-nav-link">How It Works</a>
               <a href="#diagram" className="footer-nav-link">Knowledge Hub</a>

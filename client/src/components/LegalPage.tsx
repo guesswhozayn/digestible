@@ -45,7 +45,7 @@ export const LegalPage: React.FC<LegalPageProps> = ({ onBackToHome, type }) => {
         },
         {
           heading: '2. How We Use Video Data',
-          body: 'Submitted reel URLs are processed temporarily to extract video streams, audio transcripts, and OCR text. We do not sell your personal data or video submissions to third parties.',
+          body: 'Submitted video URLs are processed temporarily to extract video streams, audio transcripts, and OCR text. We do not sell your personal data or video submissions to third parties.',
         },
         {
           heading: '3. AI Processing & Third-Party Providers',

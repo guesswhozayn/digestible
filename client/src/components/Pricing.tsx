@@ -31,7 +31,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
           </h2>
 
           <p style={{ color: 'var(--text-secondary)', fontSize: '16px', maxWidth: '540px', margin: '0 auto' }}>
-            Get started for free or upgrade for unlimited video reel summaries. Simple monthly billing, cancel anytime.
+            Get started for free or upgrade for unlimited video digests. Simple monthly billing, cancel anytime.
           </p>
         </div>
 
@@ -58,14 +58,14 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             </div>
 
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '36px', flex: 1, padding: 0 }}>
-              <PricingFeature text="15 Reel Summaries / month" />
-              <PricingFeature text="Instant Key Takeaways" />
-              <PricingFeature text="Full Audio & Text Transcripts" />
-              <PricingFeature text="Saved Personal History" />
+              <PricingFeature text="15 Video Digests / month" />
+              <PricingFeature text="Standard Audio Extraction" />
+              <PricingFeature text="Key Takeaways & Summary" />
+              <PricingFeature text="Offline Reading View" />
             </ul>
 
             <button onClick={onNavigateToSummarizer} className="btn-cliento-light" style={{ justifyContent: 'center' }}>
-              <span>Start Free Now</span>
+              <span>Start Free</span>
             </button>
           </div>
 
@@ -75,10 +75,10 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
               borderRadius: '24px',
               padding: '40px 32px',
               border: '2px solid var(--accent-orange)',
-              boxShadow: '0 20px 40px -10px rgba(255, 91, 34, 0.2)',
-              position: 'relative',
+              boxShadow: 'var(--shadow-orange)',
               display: 'flex',
               flexDirection: 'column',
+              position: 'relative',
             }}
           >
             <div
@@ -110,7 +110,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             </div>
 
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '36px', flex: 1, padding: 0 }}>
-              <PricingFeature text="Unlimited Reel Summaries" />
+              <PricingFeature text="Unlimited Video Digests" />
               <PricingFeature text="Custom Focus Prompts" />
               <PricingFeature text="Key Video Hook Analysis" />
               <PricingFeature text="Step-by-Step Recipe & Guide Export" />
@@ -118,7 +118,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             </ul>
 
             <button onClick={onNavigateToSummarizer} className="btn-expand-hover" style={{ width: '100%', justifyContent: 'center' }}>
-              <span className="btn-text">Try Digestible Free</span>
+              <span className="btn-text">Try Free</span>
               <div className="btn-icon-wrapper">
                 <div className="btn-icon-bg"></div>
                 <ArrowRight strokeWidth={2} />
@@ -151,7 +151,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
               <PricingFeature text="Everything in Pro Plan" />
               <PricingFeature text="Up to 5 Team Seats" />
               <PricingFeature text="Export to Notion & Docs" />
-              <PricingFeature text="Batch Reel Import & Digest" />
+              <PricingFeature text="Batch Video Import & Digest" />
               <PricingFeature text="Dedicated Priority Support" />
             </ul>
 

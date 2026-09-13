@@ -241,10 +241,10 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                   margin: '0 0 14px 0',
                 }}
               >
-                Summarize any reel or video note
+                Digest any video note
               </h1>
               <p style={{ fontSize: '15px', color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto', padding: '0 8px' }}>
-                Paste an Instagram Reel, TikTok, or YouTube Shorts link to extract clean key takeaways, recipe steps, and spoken transcripts in seconds.
+                Paste any short-form video link (Instagram, TikTok, or YouTube Shorts) to extract clean key takeaways, recipe steps, and spoken transcripts in seconds.
               </p>
             </div>
 
@@ -265,7 +265,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     type="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
-                    placeholder="Paste Instagram Reel, TikTok, or YouTube Shorts URL..."
+                    placeholder="Paste video link (Instagram, TikTok, YouTube Shorts)..."
                     required
                     disabled={status === 'extracting'}
                     style={{
@@ -287,7 +287,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     disabled={status === 'extracting'}
                     style={{ opacity: status === 'extracting' ? 0.75 : 1 }}
                   >
-                    <span className="btn-text">{status === 'extracting' ? 'Processing...' : 'Digest Reel'}</span>
+                    <span className="btn-text">{status === 'extracting' ? 'Processing...' : 'Digest'}</span>
                     <div className="btn-icon-wrapper">
                       <div className="btn-icon-bg"></div>
                       {status === 'extracting' ? (
@@ -358,8 +358,8 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <button
                       onClick={handleCopy}
-                      title={copied ? 'Copied to clipboard' : 'Copy summary'}
-                      aria-label="Copy summary"
+                      title={copied ? 'Copied to clipboard' : 'Copy digest'}
+                      aria-label="Copy digest"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -396,8 +396,8 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
                     <button
                       onClick={handleReset}
-                      title="Digest another reel"
-                      aria-label="Digest another reel"
+                      title="Digest another"
+                      aria-label="Digest another"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',

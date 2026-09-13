@@ -7,8 +7,8 @@ export const HowItWorks: React.FC = () => {
   const steps = [
     {
       num: '(01)',
-      title: 'Paste any reel link',
-      description: 'Copy any Instagram Reel, Shorts, or video URL. Paste it directly into Digestible for instant summary generation.',
+      title: 'Paste any video link',
+      description: 'Copy any Instagram, TikTok, or YouTube Shorts link. Paste it directly into Digestible for instant extraction.',
     },
     {
       num: '(02)',
@@ -115,7 +115,7 @@ export const HowItWorks: React.FC = () => {
                 </div>
                 <div style={{ fontSize: '11px', color: '#94A3B8', fontWeight: 600 }}>Source Input</div>
                 <div style={{ fontSize: '15px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                  <span>Instagram Reel Link</span>
+                  <span>Video Link</span>
                   <div style={{ width: '16px', height: '16px', borderRadius: '50%', background: '#FF5B22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Check size={10} color="#FFF" />
                   </div>
@@ -141,7 +141,7 @@ export const HowItWorks: React.FC = () => {
                   gap: '8px',
                 }}
               >
-                <span>Digest Reel Now</span>
+                <span>Digest Video Now</span>
                 <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#FF5B22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Check size={12} color="#FFF" />
                 </div>

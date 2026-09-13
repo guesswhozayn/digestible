@@ -72,7 +72,7 @@ export const BentoGrid: React.FC = () => {
               <div style={listItemStyle}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span style={orangeDotStyle} />
-                  <span>Reel digests</span>
+                  <span>Video digests</span>
                 </div>
                 <div style={arrowCircleStyle}><ArrowRight size={12} color="#FFF" /></div>
               </div>
@@ -87,7 +87,7 @@ export const BentoGrid: React.FC = () => {
             </div>
 
             <h3 className="font-serif" style={cardTitleStyle}>Create your video knowledge base</h3>
-            <p style={cardDescStyle}>Organize all your processed reels, recipe steps, and workout guides in one clean workspace.</p>
+            <p style={cardDescStyle}>Organize all your processed videos, recipe steps, and workout guides in one clean workspace.</p>
           </div>
 
           <div style={bentoCardStyle}>
@@ -139,7 +139,7 @@ export const BentoGrid: React.FC = () => {
               </div>
 
               <div style={{ background: '#FF5B22', color: '#FFFFFF', padding: '8px 12px', borderRadius: '10px', fontSize: '11px', fontWeight: 600, width: 'fit-content', marginLeft: 'auto', marginBottom: '8px' }}>
-                Reel processed!
+                Video processed!
               </div>
 
               <div style={{ background: '#FFFFFF', border: '1px solid #E2E8F0', padding: '8px 12px', borderRadius: '10px', fontSize: '11px', color: '#0F172A', fontWeight: 600 }}>

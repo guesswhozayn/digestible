@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 
 const FAQS = [
   {
-    q: 'How does Digestible summarize video Reels so quickly?',
+    q: 'How does Digestible digest videos so quickly?',
     a: 'Digestible extracts the MP4 video and audio stream, processes spoken audio with speech recognition, and analyzes visual text overlays (OCR) using high-speed OpenRouter multimodal AI models like Gemini 2.5 Flash.',
   },
   {
@@ -11,8 +11,8 @@ const FAQS = [
     a: 'Yes! Digestible supports custom focus prompts. For example, you can enter "Focus on exact recipe ingredient quantities and macro nutrients" or "Extract only coding tips".',
   },
   {
-    q: 'Is there a limit on how long the Reel can be?',
-    a: 'Digestible is optimized for short-form video Reels, Shorts, and TikToks ranging from 15 seconds to 3 minutes long.',
+    q: 'Is there a limit on how long the video can be?',
+    a: 'Digestible is optimized for short-form videos across Instagram, TikTok, and YouTube Shorts ranging from 15 seconds to 3 minutes long.',
   },
   {
     q: 'Does Digestible store my extracted insights?',

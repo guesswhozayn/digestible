@@ -37,7 +37,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
           }}
         >
           One portal for every <br />
-          reel & saved video note
+          saved video note
         </h1>
 
         <p
