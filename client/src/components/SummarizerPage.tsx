@@ -92,6 +92,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
 
       if (taskId) {
         let attempts = 0;
+        // Allow up to 60 attempts (~90 seconds) to accommodate yt-dlp stream extraction and LLM synthesis
         const pollInterval = setInterval(async () => {
           attempts++;
           try {
@@ -103,13 +104,18 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
               clearInterval(pollInterval);
               setActiveResult(record.summary_data);
               setStatus('completed');
-            } else if (record?.status === 'failed' || attempts > 15) {
+            } else if (record?.status === 'failed') {
+              clearInterval(pollInterval);
+              console.error('[SummarizerPage] Backend task failed:', record.error_message);
+              setActiveResult(record?.summary_data || buildDynamicResult(url, customPrompt));
+              setStatus('completed');
+            } else if (attempts > 60) {
               clearInterval(pollInterval);
               setActiveResult(record?.summary_data || buildDynamicResult(url, customPrompt));
               setStatus('completed');
             }
           } catch (pollErr) {
-            if (attempts > 10) {
+            if (attempts > 30) {
               clearInterval(pollInterval);
               setActiveResult(buildDynamicResult(url, customPrompt));
               setStatus('completed');
@@ -204,29 +210,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
           margin: '0 auto',
         }}
       >
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginBottom: '28px',
-          }}
-        >
-          <div
-            onClick={onBackToLanding}
-            style={{
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              transition: 'transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <AbstractDLogo size={32} showText={true} />
-          </div>
-        </div>
 
         {(status === 'idle' || status === 'extracting') && (
           <div>
@@ -571,6 +554,33 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
             </div>
           </div>
         )}
+
+        <div
+          style={{
+            marginTop: '44px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            textAlign: 'center',
+          }}
+        >
+          <div
+            onClick={onBackToLanding}
+            style={{
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <AbstractDLogo size={32} showText={true} />
+          </div>
+        </div>
       </main>
     </div>
   );
