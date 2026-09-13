@@ -3,6 +3,7 @@ import { redisConnectionOptions } from '../config/redis';
 import { AI_GENERATION_QUEUE_NAME, SummarizationJobData } from '../queues/summarization.queue';
 import { AIService } from '../services/aiProvider';
 import { supabaseAdmin } from '../config/supabase';
+import { localTaskStore } from '../shared/store';
 
 export function setupSummarizationWorker() {
   const worker = new Worker<SummarizationJobData>(
@@ -11,50 +12,74 @@ export function setupSummarizationWorker() {
       const { taskId, reelUrl, prompt } = job.data;
       console.log(`[Worker] Starting job ${job.id} for Task ${taskId} (URL: ${reelUrl})`);
 
+      const existing = localTaskStore.get(taskId);
+      localTaskStore.set(taskId, {
+        id: taskId,
+        reel_url: reelUrl,
+        prompt,
+        status: 'processing',
+        created_at: existing?.created_at || new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+
       try {
-        // Step 1: Update Supabase status to 'processing'
-        const { error: updateError } = await supabaseAdmin
-          .from('summaries')
-          .update({ status: 'processing' })
-          .eq('id', taskId);
 
-        if (updateError) {
-          console.warn(`[Worker] Warning updating DB status to processing for ${taskId}:`, updateError.message);
-        }
+        try {
+          await supabaseAdmin
+            .from('summaries')
+            .update({ status: 'processing' })
+            .eq('id', taskId);
+        } catch {}
 
-        // Step 2: Invoke AI Provider (OpenRouter or Gemini)
         console.log(`[Worker] Invoking AI Provider for Task ${taskId}...`);
         const summaryResult = await AIService.summarizeReel(reelUrl, prompt);
 
-        // Step 3: Persist result directly to Supabase PostgreSQL table
-        const { error: completeError } = await supabaseAdmin
-          .from('summaries')
-          .update({
-            status: 'completed',
-            summary_data: summaryResult,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', taskId);
+        localTaskStore.set(taskId, {
+          id: taskId,
+          reel_url: reelUrl,
+          prompt,
+          status: 'completed',
+          summary_data: summaryResult,
+          created_at: existing?.created_at || new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
 
-        if (completeError) {
-          console.error(`[Worker] Error persisting final summary for ${taskId}:`, completeError.message);
-          throw new Error(`Failed to persist summary: ${completeError.message}`);
-        }
+        try {
+          await supabaseAdmin
+            .from('summaries')
+            .update({
+              status: 'completed',
+              summary_data: summaryResult,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', taskId);
+        } catch {}
 
-        console.log(`[Worker] Successfully completed Task ${taskId}`);
+        console.log(`[Worker] Successfully completed Task ${taskId} for ${reelUrl}`);
         return summaryResult;
       } catch (err: any) {
         console.error(`[Worker] Job ${job.id} failed for Task ${taskId}:`, err.message);
 
-        // Step 4: Mark task as failed in Supabase
-        await supabaseAdmin
-          .from('summaries')
-          .update({
-            status: 'failed',
-            error_message: err.message || 'Unknown worker processing error',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', taskId);
+        localTaskStore.set(taskId, {
+          id: taskId,
+          reel_url: reelUrl,
+          prompt,
+          status: 'failed',
+          error_message: err.message || 'Worker processing error',
+          created_at: existing?.created_at || new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+
+        try {
+          await supabaseAdmin
+            .from('summaries')
+            .update({
+              status: 'failed',
+              error_message: err.message || 'Worker processing error',
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', taskId);
+        } catch {}
 
         throw err;
       }

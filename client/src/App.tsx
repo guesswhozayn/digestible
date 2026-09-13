@@ -24,10 +24,11 @@ export const App: React.FC = () => {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-primary)', position: 'relative' }}>
-      {/* Top Navigation */}
-      <Navbar onNavigateToSummarizer={goToSummarizer} onNavigateToHome={goToLanding} />
 
-      {/* Page Content */}
+      {currentView === 'landing' && (
+        <Navbar onNavigateToSummarizer={goToSummarizer} onNavigateToHome={goToLanding} />
+      )}
+
       {currentView === 'summarizer' ? (
         <SummarizerPage onBackToLanding={goToLanding} />
       ) : (
@@ -41,7 +42,6 @@ export const App: React.FC = () => {
         </main>
       )}
 
-      {/* Editorial Footer */}
       {currentView === 'landing' && <Footer onNavigateToSummarizer={goToSummarizer} />}
     </div>
   );

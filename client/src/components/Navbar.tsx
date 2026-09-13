@@ -41,12 +41,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
-        {/* Left: Brand Logo */}
+
         <a href="#" onClick={(e) => { e.preventDefault(); onNavigateToHome?.(); }} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
           <AbstractDLogo size={30} textColor="#0F172A" />
         </a>
 
-        {/* Center: Desktop Navigation Links */}
         <nav
           style={{
             display: 'flex',
@@ -72,12 +71,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
           </a>
         </nav>
 
-        {/* Right: Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
 
-
-
-          {/* Mobile Drawer Toggle */}
           <button
             className="mobile-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -95,7 +90,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
         </div>
       </div>
 
-      {/* Full-Screen Mobile Overlay Menu */}
       {mobileMenuOpen && (
         <div
           style={{
@@ -116,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
           }}
           className="animate-fade-in"
         >
-          {/* Explicit Close Button inside Menu */}
+
           <button 
             onClick={() => setMobileMenuOpen(false)}
             style={{
@@ -145,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="font-serif" style={mobileNavLinkStyle}>
             Pricing
           </a>
-          
+
           <div style={{ position: 'absolute', bottom: '60px', animationDelay: '0.2s' }} className="animate-fade-in">
             <AbstractDLogo size={30} textColor="#0F172A" />
           </div>

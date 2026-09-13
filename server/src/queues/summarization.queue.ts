@@ -23,9 +23,6 @@ export const summarizationQueue = new Queue<SummarizationJobData>(AI_GENERATION_
   },
 });
 
-/**
- * Enqueues a video summarization job into BullMQ
- */
 export async function enqueueSummarizationJob(data: SummarizationJobData) {
   const job = await summarizationQueue.add('summarize-reel-job', data, {
     jobId: data.taskId,

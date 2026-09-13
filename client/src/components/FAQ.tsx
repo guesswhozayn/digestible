@@ -30,14 +30,13 @@ export const FAQ: React.FC = () => {
   return (
     <section style={{ padding: '100px 0', background: 'var(--bg-glass)' }}>
       <div className="container">
-        {/* Header */}
+
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, letterSpacing: '-1px' }}>
             Frequently Asked <span className="gradient-text">Questions.</span>
           </h2>
         </div>
 
-        {/* Accordion List */}
         <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {FAQS.map((faq, idx) => (
             <div

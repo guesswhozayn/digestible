@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
       }}
     >
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        {/* Display Serif Headline */}
+
         <h1
           className="font-serif"
           style={{
@@ -40,7 +40,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
           reel & saved video note
         </h1>
 
-        {/* Subtitle */}
         <p
           style={{
             fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
@@ -54,7 +53,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
           Replaces scattered saved videos, long audio clips, and forgotten links with one clean space for quick recipes, guides, and takeaways.
         </p>
 
-        {/* Primary Action Capsule Button (Replaces Get early access) */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
           <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
             <span className="btn-text">Try Digestible Now</span>
@@ -66,7 +64,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
         </div>
       </div>
 
-      {/* Integration Bar */}
       <div className="integration-marquee-wrapper">
         <div className="integration-marquee-content">
           {Array.from({ length: 6 }).flatMap(() => integrationBrands).map((brand, i) => (
@@ -100,5 +97,3 @@ const orangeDotStyle: React.CSSProperties = {
   borderRadius: '50%',
   background: '#FF5B22',
 };
-
-

@@ -31,12 +31,11 @@ export const HowItWorks: React.FC = () => {
       }}
     >
       <div className="container" style={{ textAlign: 'center' }}>
-        {/* Badge Pill */}
+
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <span className="badge-pill-cliento">How it works</span>
         </div>
 
-        {/* Serif Headline */}
         <h2
           className="font-serif"
           style={{
@@ -52,7 +51,6 @@ export const HowItWorks: React.FC = () => {
           Simple workflow built for clarity
         </h2>
 
-        {/* Subtitle */}
         <p
           style={{
             fontSize: '16px',
@@ -65,7 +63,6 @@ export const HowItWorks: React.FC = () => {
           From pasting video links to saving actionable notes, everything flows in a structure built to save you time.
         </p>
 
-        {/* 2-Column Accordion Layout */}
         <div
           style={{
             display: 'grid',
@@ -75,7 +72,7 @@ export const HowItWorks: React.FC = () => {
             textAlign: 'left',
           }}
         >
-          {/* Left Column */}
+
           <div
             style={{
               background: 'linear-gradient(135deg, #FF6B35 0%, #FF5B22 100%)',
@@ -129,7 +126,6 @@ export const HowItWorks: React.FC = () => {
                 instagram.com/reel/C8SalmonDemo/
               </div>
 
-              {/* Action Button */}
               <div
                 style={{
                   background: '#1C1E22',
@@ -153,7 +149,6 @@ export const HowItWorks: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Numbered Accordion List */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {steps.map((step, idx) => {
               const isOpen = activeStep === idx;

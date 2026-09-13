@@ -1,14 +1,11 @@
 import { Router, Request, Response } from 'express';
-import { createTaskSchema, taskIdParamSchema } from '../shared';
+import { createTaskSchema, taskIdParamSchema, TaskRecord } from '../shared';
 import { supabaseAdmin } from '../config/supabase';
 import { enqueueSummarizationJob } from '../queues/summarization.queue';
+import { localTaskStore } from '../shared/store';
 
 export const tasksRouter = Router();
 
-/**
- * POST /api/tasks
- * Enqueue a new Instagram Reel video summarization job
- */
 tasksRouter.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
     const parseResult = createTaskSchema.safeParse(req.body);
@@ -22,63 +19,57 @@ tasksRouter.post('/', async (req: Request, res: Response): Promise<void> => {
     }
 
     const { reelUrl, prompt, userId } = parseResult.data;
+    let taskId = `task-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
-    // 1. Create initial record in Supabase with status 'pending'
-    const { data: dbRecord, error: dbError } = await supabaseAdmin
-      .from('summaries')
-      .insert({
-        reel_url: reelUrl,
-        prompt: prompt || null,
-        user_id: userId || null,
-        status: 'pending',
-      })
-      .select('id, status, created_at')
-      .single();
-
-    if (dbError || !dbRecord) {
-      console.error('[POST /api/tasks] Supabase insert error:', dbError);
-      
-      // Fallback in case DB is unreachable during development setup: generate UUID
-      const fallbackId = `task-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
-      
-      try {
-        await enqueueSummarizationJob({
-          taskId: fallbackId,
-          reelUrl,
-          prompt,
-          userId,
-        });
-      } catch (qErr: any) {
-        console.error('[POST /api/tasks] Queue error:', qErr);
-      }
-
-      res.status(202).json({
-        success: true,
-        message: 'Task enqueued (fallback mode)',
-        data: {
-          taskId: fallbackId,
+    try {
+      const { data: dbRecord } = await supabaseAdmin
+        .from('summaries')
+        .insert({
+          reel_url: reelUrl,
+          prompt: prompt || null,
+          user_id: userId || null,
           status: 'pending',
-          reelUrl,
-        },
-      });
-      return;
+        })
+        .select('id, status, created_at')
+        .single();
+
+      if (dbRecord?.id) {
+        taskId = dbRecord.id;
+      }
+    } catch (dbErr: any) {
+      console.warn('[POST /api/tasks] DB fallback mode:', dbErr.message);
     }
 
-    // 2. Enqueue job to BullMQ queue
-    await enqueueSummarizationJob({
-      taskId: dbRecord.id,
-      reelUrl,
-      prompt,
-      userId,
-    });
+    const initialRecord: TaskRecord = {
+      id: taskId,
+      reel_url: reelUrl,
+      prompt: prompt || null,
+      user_id: userId || null,
+      status: 'pending',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    localTaskStore.set(taskId, initialRecord);
+
+    try {
+      await enqueueSummarizationJob({
+        taskId,
+        reelUrl,
+        prompt,
+        userId,
+      });
+    } catch (qErr: any) {
+      console.warn('[POST /api/tasks] BullMQ Queue warning:', qErr.message);
+    }
 
     res.status(201).json({
       success: true,
-      message: 'Video summarization task successfully created and queued.',
+      message: 'Video summarization task created.',
       data: {
-        taskId: dbRecord.id,
-        status: dbRecord.status,
-        createdAt: dbRecord.created_at,
+        taskId,
+        status: 'pending',
+        createdAt: initialRecord.created_at,
       },
     });
   } catch (error: any) {
@@ -91,10 +82,6 @@ tasksRouter.post('/', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /api/tasks/:id
- * Retrieve processing status and summary results for a task
- */
 tasksRouter.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const parseResult = taskIdParamSchema.safeParse(req.params);
@@ -107,6 +94,14 @@ tasksRouter.get('/:id', async (req: Request, res: Response): Promise<void> => {
     }
 
     const { id } = parseResult.data;
+
+    if (localTaskStore.has(id)) {
+      res.json({
+        success: true,
+        data: localTaskStore.get(id),
+      });
+      return;
+    }
 
     const { data: record, error } = await supabaseAdmin
       .from('summaries')
@@ -135,26 +130,25 @@ tasksRouter.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-/**
- * GET /api/tasks
- * Retrieve recent tasks list
- */
 tasksRouter.get('/', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { data: records, error } = await supabaseAdmin
+    const localRecords = Array.from(localTaskStore.values()).sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+
+    if (localRecords.length > 0) {
+      res.json({
+        success: true,
+        data: localRecords,
+      });
+      return;
+    }
+
+    const { data: records } = await supabaseAdmin
       .from('summaries')
       .select('id, reel_url, prompt, status, summary_data, created_at')
       .order('created_at', { ascending: false })
       .limit(20);
-
-    if (error) {
-      res.status(500).json({
-        success: false,
-        error: 'Failed to fetch tasks',
-        details: error.message,
-      });
-      return;
-    }
 
     res.json({
       success: true,

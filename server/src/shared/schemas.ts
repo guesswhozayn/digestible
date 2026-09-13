@@ -7,7 +7,7 @@ export const createTaskSchema = z.object({
 });
 
 export const taskIdParamSchema = z.object({
-  id: z.string().uuid('Invalid task ID format'),
+  id: z.string().min(1, 'Task ID is required'),
 });
 
 export const timestampedMomentSchema = z.object({

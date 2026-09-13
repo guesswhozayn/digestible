@@ -1,11 +1,6 @@
-/* ==========================================================================
-   Digestible Web Landing Page — Cliento Inspired Design System
-   Palette: Off-White Canvas (#FBFBFC) / Warm Burnt Orange Accent (#FF5B22) /
-            Deep Charcoal (#0F172A & #121316) / Playfair Display Serif Typography
-   ========================================================================== */
 
 :root {
-  /* Canvas & Base Palette */
+  
   --bg-main: #fbfbfc;
   --bg-card: #ffffff;
   --bg-card-alt: #f3f4f6;
@@ -17,13 +12,11 @@
   --text-muted: #94a3b8;
   --text-light: #ffffff;
 
-  /* Cliento Signature Burnt Orange Accent */
   --accent-orange: #ff5b22;
   --accent-orange-hover: #e04b18;
   --accent-orange-light: rgba(255, 91, 34, 0.1);
   --accent-orange-gradient: linear-gradient(135deg, #ff6b35 0%, #ff5b22 100%);
 
-  /* Borders & Shadows */
   --border-light: rgba(0, 0, 0, 0.08);
   --border-dark: rgba(255, 255, 255, 0.12);
   --radius-sm: 12px;
@@ -35,7 +28,6 @@
   --shadow-card: 0 15px 35px -5px rgba(0, 0, 0, 0.06);
   --shadow-orange: 0 12px 30px -5px rgba(255, 91, 34, 0.35);
 
-  /* Typography: Instrument Serif & SF Pro System Font Stack */
   --font-serif: 'Instrument Serif', serif;
   --font-sans: "SF Pro", "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -59,7 +51,7 @@ body {
   line-height: 1.6;
   font-weight: 300;
   background-color: var(--bg-main);
-  /* Subtle Background Grid Line Pattern from Cliento reference */
+  
   background-image: 
     linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
@@ -73,12 +65,10 @@ section {
   justify-content: center;
 }
 
-/* Serif Utility Class */
 .font-serif {
   font-family: var(--font-serif);
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: 1240px;
@@ -86,7 +76,6 @@ section {
   padding: 0 24px;
 }
 
-/* Expand Hover Button */
 .btn-expand-hover {
   display: inline-flex;
   align-items: center;
@@ -162,7 +151,6 @@ section {
   transform: translateX(4px);
 }
 
-/* Cliento Light Outline Capsule Button */
 .btn-cliento-light {
   display: inline-flex;
   align-items: center;
@@ -186,7 +174,6 @@ section {
   transform: translateY(-2px);
 }
 
-/* Badge Pill (Cliento Style) */
 .badge-pill-cliento {
   display: inline-flex;
   align-items: center;
@@ -200,7 +187,6 @@ section {
   font-weight: 600;
 }
 
-/* Gradient Text (Cliento Style) */
 .gradient-text {
   background: var(--accent-orange-gradient);
   -webkit-background-clip: text;
@@ -209,7 +195,6 @@ section {
   color: transparent;
 }
 
-/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -224,7 +209,6 @@ section {
   background: var(--accent-orange);
 }
 
-/* Integration Marquee */
 .integration-marquee-wrapper {
   position: relative;
   width: 100%;
@@ -260,7 +244,7 @@ section {
   width: max-content;
   animation: scroll-marquee 30s linear infinite;
   gap: 80px;
-  padding-right: 80px; /* Same as gap to ensure smooth loop */
+  padding-right: 80px; 
 }
 
 @keyframes scroll-marquee {
@@ -290,7 +274,6 @@ section {
   justify-content: center;
 }
 
-/* Mobile Responsive Utility Classes */
 .responsive-flex-row {
   display: flex;
   flex-direction: row;
@@ -316,7 +299,6 @@ section {
   letter-spacing: -0.5px;
 }
 
-/* Animations */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }

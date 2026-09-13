@@ -14,9 +14,9 @@ export const HubDiagram: React.FC = () => {
         <p style={subtitleStyle}>
           Clear insights, zero wasted time, and every video summary organized in one space without clutter.
         </p>
-        
+
         <div className="responsive-flex-row" style={{ marginTop: '40px' }}>
-          {/* Left Side (Mess) */}
+
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
             <div style={{ ...scatteredTagStyle, marginLeft: '40px' }}>Wasted time watching</div>
             <div style={{ ...scatteredTagStyle, marginLeft: '10px' }}>Confusing instructions</div>
@@ -24,8 +24,7 @@ export const HubDiagram: React.FC = () => {
             <div style={{ ...scatteredTagStyle, marginLeft: '0px' }}>Skipping around to find it</div>
             <div style={{ ...scatteredTagStyle, marginLeft: '20px' }}>Forgetting the main point</div>
           </div>
-          
-          {/* Funnel middle */}
+
           <div style={{ 
             flex: '0.6', 
             height: '140px', 
@@ -41,7 +40,6 @@ export const HubDiagram: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Side (Clean Bento Card) */}
           <div style={{ 
             flex: '1', 
             background: '#fff', 
@@ -68,7 +66,6 @@ export const HubDiagram: React.FC = () => {
   );
 };
 
-// Extracted shared styles
 const headlineStyle: React.CSSProperties = {
   fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)',
   fontWeight: 800,

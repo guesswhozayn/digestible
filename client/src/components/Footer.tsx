@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
       }}
     >
       <div className="container">
-        {/* Top Split Section */}
+
         <div
           style={{
             display: 'grid',
@@ -26,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             marginBottom: '80px',
           }}
         >
-          {/* Left CTA Column */}
+
           <div>
             <h2
               className="font-serif"
@@ -55,7 +55,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             </button>
           </div>
 
-          {/* Right 3-Column Navigation Directory */}
           <div
             style={{
               display: 'grid',
@@ -63,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
               gap: '32px',
             }}
           >
-            {/* Nav Column 1 */}
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <button onClick={onNavigateToSummarizer} style={footerButtonStyle}>Reel Summarizer</button>
               <a href="#diagram" style={footerLinkStyle}>Smart updates</a>
@@ -71,7 +70,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
               <a href="#how-it-works" style={footerLinkStyle}>Workflow</a>
             </div>
 
-            {/* Nav Column 2 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <a href="#features" style={footerLinkStyle}>Integrations</a>
               <a href="#pricing" style={footerLinkStyle}>Pricing</a>
@@ -79,7 +77,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
               <button onClick={onNavigateToSummarizer} style={footerButtonStyle}>Try Free Demo</button>
             </div>
 
-            {/* Nav Column 3 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <a href="#" style={footerLinkStyle}>Blog</a>
               <a href="#" style={footerLinkStyle}>Careers</a>
@@ -87,7 +84,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
           </div>
         </div>
 
-        {/* Giant Landscape Display Banner */}
         <div
           style={{
             position: 'relative',
@@ -102,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
           }}
         >
-          {/* Background Overlay */}
+
           <div
             style={{
               position: 'absolute',
@@ -111,7 +107,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
             }}
           />
 
-          {/* Giant Display Brand Title */}
           <h1
             className="font-serif"
             style={{
@@ -131,7 +126,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer }) => {
           </h1>
         </div>
 
-        {/* Bottom Sub-Bar */}
         <div
           style={{
             display: 'flex',

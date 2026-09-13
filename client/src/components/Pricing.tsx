@@ -11,7 +11,7 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
   return (
     <section id="pricing" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
-        {/* Header */}
+
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>
             <span>Simple transparent pricing</span>
@@ -36,7 +36,6 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             Get started for free or upgrade for unlimited video reel summaries.
           </p>
 
-          {/* Monthly / Annual Toggle */}
           <div
             style={{
               display: 'inline-flex',
@@ -85,9 +84,8 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
           </div>
         </div>
 
-        {/* Pricing Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '32px', maxWidth: '1120px', margin: '0 auto' }}>
-          {/* Free Tier */}
+
           <div
             style={{
               background: '#FFFFFF',
@@ -120,7 +118,6 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             </button>
           </div>
 
-          {/* Pro Tier (Featured) */}
           <div
             style={{
               background: '#FFFFFF',
@@ -178,7 +175,6 @@ export const Pricing: React.FC<PricingProps> = ({ onNavigateToSummarizer }) => {
             </button>
           </div>
 
-          {/* Team Tier */}
           <div
             style={{
               background: '#FFFFFF',

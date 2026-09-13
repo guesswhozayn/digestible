@@ -12,14 +12,13 @@ export const BentoGrid: React.FC = () => {
       }}
     >
       <div className="container" style={{ textAlign: 'center' }}>
-        {/* Top Centered Pill Badge */}
+
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
           <span style={{ background: 'rgba(255, 255, 255, 0.08)', color: '#CBD5E1', padding: '6px 16px', borderRadius: '999px', fontSize: '13px', fontWeight: 600 }}>
             Built for clarity
           </span>
         </div>
 
-        {/* Serif Headline */}
         <h2
           className="font-serif"
           style={{
@@ -36,7 +35,6 @@ export const BentoGrid: React.FC = () => {
           should have worked from the start
         </h2>
 
-        {/* Subtitle */}
         <p
           style={{
             fontSize: '16px',
@@ -49,7 +47,6 @@ export const BentoGrid: React.FC = () => {
           A simple workflow where you always know what to watch, what to learn, and what to keep.
         </p>
 
-        {/* Top 3-Column Bento Feature Cards Grid */}
         <div
           style={{
             display: 'grid',
@@ -59,7 +56,7 @@ export const BentoGrid: React.FC = () => {
             textAlign: 'left',
           }}
         >
-          {/* Bento Card 1 */}
+
           <div style={bentoCardStyle}>
             <div style={floaterBoxStyle}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
@@ -93,7 +90,6 @@ export const BentoGrid: React.FC = () => {
             <p style={cardDescStyle}>Organize all your processed reels, recipe steps, and workout guides in one clean workspace.</p>
           </div>
 
-          {/* Bento Card 2 */}
           <div style={bentoCardStyle}>
             <div style={{ ...floaterBoxStyle, position: 'relative' }}>
               <div style={timelineRowStyle}>
@@ -136,7 +132,6 @@ export const BentoGrid: React.FC = () => {
             <p style={cardDescStyle}>Instantly share 15-second summaries with your team, friends, or personal bookmarks without long video friction.</p>
           </div>
 
-          {/* Bento Card 3 */}
           <div style={bentoCardStyle}>
             <div style={floaterBoxStyle}>
               <div style={{ background: '#F8FAFC', padding: '8px 12px', borderRadius: '10px', fontSize: '11px', color: '#475569', marginBottom: '8px' }}>
@@ -157,7 +152,6 @@ export const BentoGrid: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Row Bento Metrics Grid */}
         <div
           style={{
             display: 'grid',
@@ -166,7 +160,7 @@ export const BentoGrid: React.FC = () => {
             textAlign: 'left',
           }}
         >
-          {/* Orange Metric Card 1 */}
+
           <div
             style={{
               background: 'linear-gradient(135deg, #FF6B35 0%, #FF5B22 100%)',
@@ -189,7 +183,6 @@ export const BentoGrid: React.FC = () => {
             </div>
           </div>
 
-          {/* Orange Metric Card 2 */}
           <div
             style={{
               background: 'linear-gradient(135deg, #FF6B35 0%, #FF5B22 100%)',
@@ -212,7 +205,6 @@ export const BentoGrid: React.FC = () => {
             </div>
           </div>
 
-          {/* White Card 3 */}
           <div
             style={{
               background: '#FFFFFF',

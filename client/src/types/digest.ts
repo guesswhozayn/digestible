@@ -1,11 +1,11 @@
 export type TaskStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface TimestampedMoment {
-  timestamp: string; // e.g. "00:03"
-  seconds: number;   // e.g. 3
-  label: string;     // e.g. "The Viral Hook"
-  summary: string;   // e.g. "Creator demonstrates instant ingredient swap"
-  visualDescription?: string; // e.g. "Fast cuts of fresh basil and garlic"
+  timestamp: string; 
+  seconds: number;   
+  label: string;     
+  summary: string;   
+  visualDescription?: string; 
 }
 
 export interface StepInstruction {
@@ -28,7 +28,7 @@ export interface AudioAnalysis {
   backgroundMusic: string;
   speechPace: 'fast' | 'moderate' | 'slow' | 'dynamic';
   wordsPerMinute: number;
-  clarityScore: number; // 1-100
+  clarityScore: number; 
   audioFormatInfo?: string;
 }
 
@@ -38,7 +38,7 @@ export interface ReelSummaryResult {
   keyTakeaways: string[];
   viralHook: {
     hookText: string;
-    hookEffectivenessScore: number; // 1-100
+    hookEffectivenessScore: number; 
     whyItWorks: string;
   };
   keyQuotes: string[];

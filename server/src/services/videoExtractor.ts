@@ -1,10 +1,10 @@
 import { execFile } from 'child_process';
 import { promisify } from 'util';
-import axios from 'axios';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as os from 'os';
+import ffmpegPath from 'ffmpeg-static';
 import { VideoMetadata } from '../shared';
-
 import { AudioExtractorService, ExtractedAudioData } from './audioExtractor';
 
 const execFileAsync = promisify(execFile);
@@ -12,23 +12,15 @@ const YTDLP_PATH = path.join(__dirname, '..', '..', 'yt-dlp');
 
 export interface ExtractedVideoData {
   metadata: VideoMetadata;
-  videoBuffer?: Buffer;
   directUrl?: string;
+  keyframes?: string[]; 
   audioData?: ExtractedAudioData;
 }
 
 export class VideoExtractorService {
-  /**
-   * Attempts to extract a direct MP4 URL and binary buffer from an Instagram Reel
-   * using yt-dlp with browser cookies for authentication.
-   *
-   * Priority order:
-   * 1. yt-dlp with browser cookies → real direct .mp4 URL → buffer download
-   * 2. Direct MP4 URL passthrough (if reelUrl is already a .mp4 link)
-   * 3. Graceful fallback: return metadata only, Gemini will reason from URL + text prompt
-   */
+
   static async extractMediaStream(reelUrl: string): Promise<ExtractedVideoData> {
-    console.log(`[VideoExtractorService] Initiating video & audio extraction for: ${reelUrl}`);
+    console.log(`[VideoExtractorService] Initiating frame-by-frame video & audio extraction for: ${reelUrl}`);
 
     const defaultMeta: VideoMetadata = {
       durationSeconds: 30,
@@ -37,93 +29,94 @@ export class VideoExtractorService {
       directStreamUrl: reelUrl,
     };
 
-    // Extract audio stream asynchronously in parallel
     const audioPromise = AudioExtractorService.extractAudioStream(reelUrl).catch(err => {
       console.warn('[VideoExtractorService] Audio extraction note:', err.message);
       return undefined;
     });
 
-    // 1. If already a direct .mp4 link, download buffer directly
-    if (reelUrl.includes('.mp4')) {
+    let videoMetadata = defaultMeta;
+    let directUrl = reelUrl;
+
+    if (fs.existsSync(YTDLP_PATH)) {
       try {
-        console.log('[VideoExtractorService] Direct MP4 URL detected, downloading...');
-        const response = await axios.get(reelUrl, {
-          responseType: 'arraybuffer',
-          timeout: 20000,
-          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' },
-        });
-        const audioData = await audioPromise;
-        return {
-          metadata: defaultMeta,
-          videoBuffer: Buffer.from(response.data),
-          directUrl: reelUrl,
-          audioData,
+        console.log('[VideoExtractorService] Fetching video metadata via yt-dlp...');
+        const { stdout: jsonOut } = await execFileAsync(
+          YTDLP_PATH,
+          ['--dump-json', '--no-warnings', reelUrl],
+          { timeout: 8000 }
+        );
+
+        const meta = JSON.parse(jsonOut.trim());
+        directUrl = meta.url || meta.requested_formats?.[0]?.url || reelUrl;
+        const durationSeconds = meta.duration ? Math.round(meta.duration) : 30;
+        const width = meta.width || 1080;
+        const height = meta.height || 1920;
+        const resolution = `${width}x${height} (${height > width ? 'Vertical 9:16' : 'Horizontal'})`;
+        const frameRate = meta.fps || 30;
+        const title = meta.title || meta.fulltitle || '';
+        const uploader = meta.uploader || meta.channel || meta.creator || '';
+        const description = meta.description || meta.caption || '';
+
+        videoMetadata = {
+          durationSeconds,
+          resolution,
+          frameRate,
+          directStreamUrl: directUrl,
+          title,
+          uploader,
+          description,
         };
-      } catch (e: any) {
-        console.warn('[VideoExtractorService] Direct MP4 download failed:', e.message);
+      } catch (ytErr: any) {
+        console.warn('[VideoExtractorService] Metadata extraction note:', ytErr.message?.slice(0, 80));
       }
     }
 
-    // 2. yt-dlp: try --cookies-from-browser for authenticated extraction
-    if (fs.existsSync(YTDLP_PATH)) {
-      const browsers = ['chrome', 'firefox', 'chromium'];
-      for (const browser of browsers) {
-        try {
-          console.log(`[VideoExtractorService] Trying yt-dlp with --cookies-from-browser=${browser}...`);
-          const { stdout } = await execFileAsync(
-            YTDLP_PATH,
-            ['--get-url', '--no-warnings', `--cookies-from-browser=${browser}`, reelUrl],
-            { timeout: 12000 }
+    const keyframes: string[] = [];
+    if (fs.existsSync(YTDLP_PATH) && ffmpegPath) {
+      const tempId = `reel_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const tmpVideoPath = path.join(os.tmpdir(), `${tempId}.mp4`);
+
+      try {
+        console.log('[VideoExtractorService] Extracting video sample for frame-by-frame vision analysis...');
+        await execFileAsync(
+          YTDLP_PATH,
+          ['-o', tmpVideoPath, '-f', 'mp4/bestvideo+bestaudio/best', '--max-filesize', '12m', '--no-warnings', reelUrl],
+          { timeout: 12000 }
+        );
+
+        if (fs.existsSync(tmpVideoPath)) {
+          const framePattern = path.join(os.tmpdir(), `${tempId}_frame_%02d.jpg`);
+
+          await execFileAsync(
+            ffmpegPath,
+            ['-i', tmpVideoPath, '-vf', 'fps=1/4', '-vframes', '5', '-q:v', '2', '-y', framePattern],
+            { timeout: 10000 }
           );
-          const directUrl = stdout.trim().split('\n')[0];
-          if (directUrl && directUrl.startsWith('http')) {
-            console.log('[VideoExtractorService] yt-dlp extracted URL via', browser);
 
-            // Parse duration from yt-dlp JSON metadata
-            let durationSeconds = 30;
-            try {
-              const { stdout: jsonOut } = await execFileAsync(
-                YTDLP_PATH,
-                ['--dump-json', '--no-warnings', `--cookies-from-browser=${browser}`, reelUrl],
-                { timeout: 12000 }
-              );
-              const meta = JSON.parse(jsonOut.trim());
-              durationSeconds = meta.duration || 30;
-            } catch {}
-
-            const audioData = await audioPromise;
-
-            // Download binary buffer
-            try {
-              const bufferRes = await axios.get(directUrl, {
-                responseType: 'arraybuffer',
-                timeout: 30000,
-              });
-              return {
-                metadata: { durationSeconds, resolution: '1080x1920 (Vertical 9:16)', frameRate: 30, directStreamUrl: directUrl },
-                videoBuffer: Buffer.from(bufferRes.data),
-                directUrl,
-                audioData,
-              };
-            } catch (downloadErr: any) {
-              console.warn('[VideoExtractorService] Buffer download failed, returning URL only:', downloadErr.message);
-              return {
-                metadata: { durationSeconds, resolution: '1080x1920 (Vertical 9:16)', frameRate: 30, directStreamUrl: directUrl },
-                directUrl,
-                audioData,
-              };
-            }
+          const files = fs.readdirSync(os.tmpdir()).filter(f => f.startsWith(`${tempId}_frame_`));
+          for (const file of files) {
+            const filePath = path.join(os.tmpdir(), file);
+            const buf = fs.readFileSync(filePath);
+            keyframes.push(buf.toString('base64'));
+            try { fs.unlinkSync(filePath); } catch {}
           }
-        } catch (ytErr: any) {
-          console.log(`[VideoExtractorService] yt-dlp ${browser} failed: ${ytErr.message?.slice(0, 80)}`);
+          console.log(`[VideoExtractorService] Successfully extracted ${keyframes.length} keyframe images for vision analysis.`);
+        }
+      } catch (frameErr: any) {
+        console.warn('[VideoExtractorService] Keyframe extraction note:', frameErr.message?.slice(0, 80));
+      } finally {
+        if (fs.existsSync(tmpVideoPath)) {
+          try { fs.unlinkSync(tmpVideoPath); } catch {}
         }
       }
     }
 
     const audioData = await audioPromise;
-
-    // 3. Graceful fallback — Gemini will use the public URL + text prompt for reasoning
-    console.log('[VideoExtractorService] All extraction methods failed — Gemini will use URL-based reasoning.');
-    return { metadata: defaultMeta, audioData };
+    return {
+      metadata: videoMetadata,
+      directUrl,
+      keyframes,
+      audioData,
+    };
   }
 }

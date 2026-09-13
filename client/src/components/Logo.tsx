@@ -28,12 +28,11 @@ export const AbstractDLogo: React.FC<LogoProps> = ({
           </linearGradient>
           <mask id={maskId}>
             <rect width="40" height="40" fill="#FFFFFF" />
-            {/* True transparent aperture cutout */}
+
             <circle cx="16" cy="20" r="4.5" fill="#000000" />
           </mask>
         </defs>
 
-        {/* Digestible Organic D Silhouette */}
         <path
           d="M 8 4 C 18 4 34 8 34 20 C 34 32 18 36 8 36 C 3.5 36 3.5 4 8 4 Z"
           fill={`url(#${gradientId})`}
