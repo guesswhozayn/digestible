@@ -55,7 +55,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSummarizer, onNaviga
             </p>
 
             <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
-              <span className="btn-text">Try Digestible Now</span>
+              <span className="btn-text">Try Now</span>
               <div className="btn-icon-wrapper">
                 <div className="btn-icon-bg"></div>
                 <ArrowRight strokeWidth={2} />

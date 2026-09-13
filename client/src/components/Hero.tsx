@@ -55,7 +55,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigateToSummarizer }) => {
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
           <button onClick={onNavigateToSummarizer} className="btn-expand-hover">
-            <span className="btn-text">Try Digestible Now</span>
+            <span className="btn-text">Try Now</span>
             <div className="btn-icon-wrapper">
               <div className="btn-icon-bg"></div>
               <ArrowRight strokeWidth={2} />

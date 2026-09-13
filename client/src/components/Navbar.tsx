@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AbstractDLogo } from './Logo';
-import { ArrowUpRight, Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
   onNavigateToSummarizer: () => void;
@@ -30,9 +30,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
         width: 'calc(100% - 32px)',
         maxWidth: '1240px',
         zIndex: 100,
-        padding: '12px 28px',
+        padding: '10px 24px',
         borderRadius: 'var(--radius-pill)',
-        background: 'rgba(255, 255, 255, 0.85)',
+        background: 'rgba(255, 255, 255, 0.88)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: '1px solid var(--border-light)',
@@ -42,40 +42,79 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
 
+        {/* Brand Logo */}
         <a href="#" onClick={(e) => { e.preventDefault(); onNavigateToHome?.(); }} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <AbstractDLogo size={30} textColor="#0F172A" />
+          <AbstractDLogo size={28} textColor="#0F172A" />
         </a>
 
+        {/* Desktop Centered Navigation Links */}
         <nav
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '32px',
+            gap: '28px',
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
           }}
           className="desktop-nav"
         >
-          <a href="#diagram" style={navLinkStyle}>
+          <a href="#diagram" className="header-nav-link">
             Overview
           </a>
-          <a href="#features" style={navLinkStyle}>
+          <a href="#features" className="header-nav-link">
             Features
           </a>
-          <a href="#how-it-works" style={navLinkStyle}>
+          <a href="#how-it-works" className="header-nav-link">
             How it works
           </a>
-          <a href="#pricing" style={navLinkStyle}>
+          <a href="#pricing" className="header-nav-link">
             Pricing
+          </a>
+          <a href="#faq" className="header-nav-link">
+            FAQ
           </a>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        {/* Right Section: Desktop CTA + Mobile Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+
+          <button
+            onClick={onNavigateToSummarizer}
+            className="desktop-nav font-serif"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              height: '36px',
+              padding: '0 18px',
+              borderRadius: '999px',
+              background: '#0F172A',
+              border: 'none',
+              color: '#FFFFFF',
+              fontSize: '17px',
+              fontWeight: 700,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#FF5B22';
+              e.currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#0F172A';
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            <span>Digest</span>
+            <ArrowRight size={14} />
+          </button>
 
           <button
             className="mobile-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             style={{
               display: 'none',
               background: 'none',
@@ -90,6 +129,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
         </div>
       </div>
 
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
         <div
           style={{
@@ -98,7 +138,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
             left: 0,
             width: '100vw',
             height: '100vh',
-            background: 'rgba(251, 251, 252, 0.95)',
+            background: 'rgba(251, 251, 252, 0.98)',
             backdropFilter: 'blur(30px)',
             WebkitBackdropFilter: 'blur(30px)',
             zIndex: 110,
@@ -106,13 +146,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '32px',
+            gap: '24px',
+            padding: '24px',
           }}
           className="animate-fade-in"
         >
 
+          <div style={{ position: 'absolute', top: '24px', left: '24px' }}>
+            <AbstractDLogo size={28} textColor="#0F172A" />
+          </div>
+
           <button 
             onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close menu"
             style={{
               position: 'absolute',
               top: '24px',
@@ -124,7 +170,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
               padding: '8px',
             }}
           >
-            <X size={32} />
+            <X size={28} />
           </button>
 
           <a href="#diagram" onClick={() => setMobileMenuOpen(false)} className="font-serif" style={mobileNavLinkStyle}>
@@ -139,10 +185,25 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
           <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="font-serif" style={mobileNavLinkStyle}>
             Pricing
           </a>
+          <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="font-serif" style={mobileNavLinkStyle}>
+            FAQ
+          </a>
 
-          <div style={{ position: 'absolute', bottom: '60px', animationDelay: '0.2s' }} className="animate-fade-in">
-            <AbstractDLogo size={30} textColor="#0F172A" />
-          </div>
+          {/* Primary Action in Mobile Drawer */}
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onNavigateToSummarizer();
+            }}
+            className="btn-expand-hover"
+            style={{ marginTop: '16px' }}
+          >
+            <span className="btn-text">Digest</span>
+            <div className="btn-icon-wrapper">
+              <div className="btn-icon-bg"></div>
+              <ArrowRight strokeWidth={2} />
+            </div>
+          </button>
         </div>
       )}
 
@@ -156,18 +217,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onNavigateToSummarizer, onNaviga
   );
 };
 
-const navLinkStyle: React.CSSProperties = {
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-  fontSize: '15px',
-  fontWeight: 500,
-  transition: 'color 0.2s ease',
-};
-
 const mobileNavLinkStyle: React.CSSProperties = {
   color: 'var(--text-primary)',
   textDecoration: 'none',
-  fontSize: '42px',
+  fontSize: '34px',
   fontWeight: 800,
-  letterSpacing: '-1px',
+  letterSpacing: '-0.5px',
 };
+

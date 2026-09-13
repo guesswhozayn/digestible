@@ -130,7 +130,25 @@ export const LegalPage: React.FC<LegalPageProps> = ({ onBackToHome, type }) => {
         <ArrowLeft size={20} strokeWidth={2.2} />
       </button>
 
-      <main className="container" style={{ maxWidth: '780px', paddingTop: '100px' }}>
+      <main className="container" style={{ maxWidth: '780px', paddingTop: '50px' }}>
+        {/* Top Centered Brand Logo */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
+          <div
+            onClick={onBackToHome}
+            style={{
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <AbstractDLogo size={32} showText={true} />
+          </div>
+        </div>
+
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <span
             style={{
@@ -201,20 +219,6 @@ export const LegalPage: React.FC<LegalPageProps> = ({ onBackToHome, type }) => {
               </p>
             </div>
           ))}
-        </div>
-
-        <div style={{ marginTop: '50px', textAlign: 'center' }}>
-          <div
-            onClick={onBackToHome}
-            style={{
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-            }}
-          >
-            <AbstractDLogo size={30} showText={true} />
-          </div>
         </div>
       </main>
     </div>

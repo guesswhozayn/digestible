@@ -28,12 +28,27 @@ export const FAQ: React.FC = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   return (
-    <section style={{ padding: '100px 0', background: 'var(--bg-glass)' }}>
+    <section id="faq" style={{ padding: '100px 0', background: 'transparent' }}>
       <div className="container">
 
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, letterSpacing: '-1px' }}>
-            Frequently Asked <span className="gradient-text">Questions.</span>
+          <span className="badge-pill-cliento" style={{ marginBottom: '16px' }}>
+            <span>Got Questions?</span>
+          </span>
+
+          <h2
+            className="font-serif"
+            style={{
+              fontSize: 'clamp(2.2rem, 4.5vw, 3.8rem)',
+              fontWeight: 800,
+              color: 'var(--text-primary)',
+              lineHeight: 1.1,
+              letterSpacing: '-1px',
+              maxWidth: '820px',
+              margin: '0 auto',
+            }}
+          >
+            Frequently Asked <span className="gradient-text">Questions</span>
           </h2>
         </div>
 

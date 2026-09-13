@@ -204,12 +204,29 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
       <main
         className="container"
         style={{
-          paddingTop: status === 'completed' ? '80px' : '40px',
+          paddingTop: status === 'completed' ? '40px' : '30px',
           maxWidth: '900px',
           width: '100%',
           margin: '0 auto',
         }}
       >
+        {/* Top Centered Brand Logo */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '32px' }}>
+          <div
+            onClick={onBackToLanding}
+            style={{
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <AbstractDLogo size={32} showText={true} />
+          </div>
+        </div>
 
         {(status === 'idle' || status === 'extracting') && (
           <div>
@@ -601,33 +618,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
             </div>
           </div>
         )}
-
-        <div
-          style={{
-            marginTop: '44px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '10px',
-            textAlign: 'center',
-          }}
-        >
-          <div
-            onClick={onBackToLanding}
-            style={{
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              transition: 'transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <AbstractDLogo size={32} showText={true} />
-          </div>
-        </div>
       </main>
     </div>
   );
