@@ -205,6 +205,29 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
         }}
       >
 
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginBottom: '28px',
+          }}
+        >
+          <div
+            onClick={onBackToLanding}
+            style={{
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <AbstractDLogo size={32} showText={true} />
+          </div>
+        </div>
+
         {(status === 'idle' || status === 'extracting') && (
           <div>
 
@@ -302,23 +325,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
               <button
                 onClick={handleReset}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '10px 18px',
-                  borderRadius: '999px',
-                  background: '#FFFFFF',
-                  border: '1px solid var(--border-light)',
-                  color: '#0F172A',
-                  fontSize: '13.5px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#F8FAFC')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#FFFFFF')}
+                className="btn-cliento-light"
               >
                 <Plus size={16} />
                 <span>Digest Another Reel</span>
@@ -327,9 +334,8 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
               <button
                 onClick={handleCopy}
                 className="btn-cliento-light"
-                style={{ fontSize: '13px', padding: '9px 18px' }}
               >
-                {copied ? <Check size={15} color="#10B981" /> : <Copy size={15} />}
+                {copied ? <Check size={16} color="#10B981" /> : <Copy size={16} />}
                 <span>{copied ? 'Copied to Clipboard!' : 'Copy Summary'}</span>
               </button>
             </div>
@@ -565,36 +571,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
             </div>
           </div>
         )}
-
-        <div
-          style={{
-            marginTop: '44px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '10px',
-            textAlign: 'center',
-          }}
-        >
-          <div
-            onClick={onBackToLanding}
-            style={{
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              transition: 'transform 0.2s ease',
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <AbstractDLogo size={32} showText={true} />
-          </div>
-          <span style={{ fontSize: '13px', color: 'var(--text-secondary)', fontWeight: 500 }}>
-            AI-Powered Short Form Video Summarizer & Knowledge Extractor
-          </span>
-        </div>
       </main>
     </div>
   );
