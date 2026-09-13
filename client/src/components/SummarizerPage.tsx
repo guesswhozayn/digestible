@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AbstractDLogo } from './Logo';
-import { ArrowLeft, Copy, Check, Zap, RefreshCw, Sparkles, Plus, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Copy, Check, RefreshCw, Sparkles, Plus, ExternalLink } from 'lucide-react';
 import { ReelSummaryResult } from '../types/digest';
 
 interface SummarizerPageProps {
@@ -145,7 +145,19 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg-main)', color: 'var(--text-primary)', paddingBottom: '80px', position: 'relative' }}>
+    <div
+      style={{
+        minHeight: '100vh',
+        background: 'var(--bg-main)',
+        color: 'var(--text-primary)',
+        paddingBottom: '80px',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
 
       <button
         onClick={onBackToLanding}
@@ -183,30 +195,20 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
         <ArrowLeft size={20} strokeWidth={2.2} />
       </button>
 
-      <main className="container" style={{ paddingTop: '90px', maxWidth: '900px' }}>
+      <main
+        className="container"
+        style={{
+          paddingTop: status === 'completed' ? '90px' : '40px',
+          maxWidth: '900px',
+          width: '100%',
+          margin: '0 auto',
+        }}
+      >
 
         {(status === 'idle' || status === 'extracting') && (
           <div>
 
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '6px 14px',
-                  borderRadius: '999px',
-                  background: 'rgba(255, 91, 34, 0.08)',
-                  color: '#FF5B22',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.6px',
-                  marginBottom: '16px',
-                }}
-              >
-                <Sparkles size={14} /> AI Reel Digest Engine
-              </span>
               <h1
                 className="font-serif"
                 style={{
@@ -267,7 +269,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                       {status === 'extracting' ? (
                         <RefreshCw size={20} strokeWidth={2} className="animate-spin" />
                       ) : (
-                        <Zap size={20} strokeWidth={2} />
+                        <ArrowRight size={20} strokeWidth={2} />
                       )}
                     </div>
                   </button>
@@ -290,43 +292,6 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                   }}
                 />
               </form>
-
-              {status === 'idle' && (
-                <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '12px', color: '#94A3B8', fontWeight: 600 }}>Try Demo Link:</span>
-                  <button
-                    type="button"
-                    onClick={() => setUrl('https://www.instagram.com/reel/C8SalmonDemo/')}
-                    style={{
-                      border: 'none',
-                      background: '#F1F5F9',
-                      color: '#475569',
-                      padding: '6px 12px',
-                      borderRadius: '999px',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      transition: 'background 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#E2E8F0')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = '#F1F5F9')}
-                  >
-                    Salmon Recipe Reel 🍣
-                  </button>
-                </div>
-              )}
-
-              {status === 'extracting' && (
-                <div style={{ marginTop: '28px', paddingTop: '24px', borderTop: '1px solid var(--border-light)', textAlign: 'center' }}>
-                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', color: '#FF5B22', fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>
-                    <RefreshCw size={18} className="animate-spin" />
-                    <span>Extracting reel & generating AI digest...</span>
-                  </div>
-                  <p style={{ fontSize: '13px', color: '#64748B', margin: 0 }}>
-                    Downloading media stream → Extracting spoken audio → Structuring key takeaways
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -495,7 +460,7 @@ export const SummarizerPage: React.FC<SummarizerPageProps> = ({ onBackToLanding 
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <span style={{ fontSize: '12px', fontWeight: 800, color: '#FF5B22', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                          🔥 Viral Hook Score
+                          Viral Hook Score
                         </span>
                         <span style={{ fontSize: '13px', fontWeight: 800, color: '#0F172A', background: '#FFFFFF', padding: '2px 10px', borderRadius: '999px', border: '1px solid #FFD6C9' }}>
                           {result.viralHook.hookEffectivenessScore} / 100

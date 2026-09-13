@@ -32,6 +32,7 @@ Attached Visual Keyframes: ${keyframes?.length || 0} images
 Attached Audio Track: ${audioData?.audioBase64 ? 'Yes (raw audio stream attached)' : 'None'}
 
 ${promptInstruction}
+IMPORTANT STYLE RULE: Do not use any emojis in any text field of the response. Keep all text clean, professional, and clear without emoji symbols.
 
 Return ONLY a single valid JSON object matching this schema (no markdown, no wrap):
 {
