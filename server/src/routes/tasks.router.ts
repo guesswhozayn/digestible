@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { createTaskSchema, taskIdParamSchema, TaskRecord } from '../shared';
 import { supabaseAdmin } from '../config/supabase';
 import { enqueueSummarizationJob } from '../queues/summarization.queue';
+import { processSummarizationTask } from '../workers/summarization.worker';
 import { localTaskStore } from '../shared/store';
 
 export const tasksRouter = Router();
@@ -52,24 +53,34 @@ tasksRouter.post('/', async (req: Request, res: Response): Promise<void> => {
 
     localTaskStore.set(taskId, initialRecord);
 
-    try {
-      await enqueueSummarizationJob({
-        taskId,
-        reelUrl,
-        prompt,
-        userId,
-      });
-    } catch (qErr: any) {
-      console.warn('[POST /api/tasks] BullMQ Queue warning:', qErr.message);
+    const jobPayload = { taskId, reelUrl, prompt, userId };
+    const isServerless = Boolean(process.env.VERCEL);
+
+    if (isServerless) {
+      try {
+        await processSummarizationTask(jobPayload);
+      } catch (procErr: any) {
+        console.warn('[POST /api/tasks] Serverless inline task warning:', procErr.message);
+      }
+    } else {
+      try {
+        await enqueueSummarizationJob(jobPayload);
+      } catch (qErr: any) {
+        console.warn('[POST /api/tasks] BullMQ Queue warning, falling back to inline processing:', qErr.message);
+        processSummarizationTask(jobPayload).catch(() => {});
+      }
     }
+
+    const finalRecord = localTaskStore.get(taskId) || initialRecord;
 
     res.status(201).json({
       success: true,
       message: 'Video summarization task created.',
       data: {
         taskId,
-        status: 'pending',
-        createdAt: initialRecord.created_at,
+        status: finalRecord.status,
+        summary_data: finalRecord.summary_data,
+        createdAt: finalRecord.created_at,
       },
     });
   } catch (error: any) {

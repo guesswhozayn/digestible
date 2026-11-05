@@ -13,6 +13,7 @@ const YTDLP_PATH = path.join(__dirname, '..', '..', 'yt-dlp');
 export interface ExtractedVideoData {
   metadata: VideoMetadata;
   directUrl?: string;
+  videoBuffer?: Buffer;
   keyframes?: string[]; 
   audioData?: ExtractedAudioData;
 }

@@ -14,6 +14,8 @@ const envSchema = z.object({
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1, 'SUPABASE_SERVICE_ROLE_KEY is required'),
   OPENROUTER_API_KEY: z.string().min(1, 'OPENROUTER_API_KEY is required for commercial AI models'),
   OPENROUTER_MODEL: z.string().default('openrouter/auto'),
+  GEMINI_API_KEY: z.string().optional().default(''),
+  GEMINI_MODEL: z.string().default('gemini-2.5-flash'),
 });
 
 export type Env = z.infer<typeof envSchema>;
@@ -29,4 +31,6 @@ export const config = envSchema.parse({
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY || 'demo-service-role-key',
   OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || 'sk-or-v1-demo-key',
   OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || 'openrouter/auto',
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
+  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
 });
